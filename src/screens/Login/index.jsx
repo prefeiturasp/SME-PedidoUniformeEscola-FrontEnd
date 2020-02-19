@@ -60,7 +60,7 @@ export class Login extends Component {
   };
 
   renderLogin() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit } = this.props;
     const { bloquearBotao } = this.state;
     return (
       <div className="form">
@@ -89,7 +89,7 @@ export class Login extends Component {
             className="mt-3 col-12"
             style={BUTTON_STYLE.BLUE}
             texto="Acessar"
-            disabled={pristine || submitting || bloquearBotao}
+            disabled={bloquearBotao}
             type={BUTTON_TYPE.SUBMIT}
           />
           <Link
@@ -132,6 +132,7 @@ export class Login extends Component {
                     options={TIPOS_EMAIL_CADASTRO}
                     naoDesabilitarPrimeiraOpcao
                     width={this.state.width}
+                    disabled
                   />
                 </div>
               </div>

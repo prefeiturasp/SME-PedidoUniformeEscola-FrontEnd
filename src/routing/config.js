@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Login from "../screens/Login";
 import NotFoundPage from "../screens/404";
+import ConfirmarEmail from "../screens/ConfirmarEmail";
 
 /*const PrivateRouter = (
   { component: Component, tipoUsuario: tipoUsuario, ...rest } // eslint-disable-line
@@ -40,6 +41,7 @@ const Routes = () => (
           />
         );
       })*/}
+      <Route path="/confirmar-email" component={ConfirmarEmail} />
       <Route path="*" component={NotFoundPage} />
     </Switch>
   </BrowserRouter>
