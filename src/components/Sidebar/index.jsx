@@ -1,22 +1,10 @@
 import React, { Component } from "react";
 import "./style.scss";
+import { getNome, getRF, getInstituicao } from "../../helpers/utils";
 
 export class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toggled: false
-    };
-  }
-
   render() {
-    const {
-      nome,
-      toggle,
-      toggled,
-      registro_funcional,
-      nome_instituicao
-    } = this.props;
+    const { toggle, toggled } = this.props;
     return (
       <div>
         <div className="mb-5" />
@@ -37,10 +25,10 @@ export class Sidebar extends Component {
           </p>
           <div className="justify-content-center mx-auto align-items-center sidebar-brand-text mx-3 pt-2">
             <div className="nav-item">
-              {!toggled && nome && nome !== "" && (
+              {!toggled && getNome() && (
                 <div className="sidebar-brand-text text-center">
                   <span className="d-none d-lg-inline text-bold text-white small border border-light rounded-pill p-1">
-                    {nome}
+                    {getNome()}
                   </span>
                 </div>
               )}
@@ -50,14 +38,14 @@ export class Sidebar extends Component {
             <div className="sidebar-wrapper">
               <div className="text-center mx-auto justify-content-center p-2">
                 <span className="text-bold text-white small">
-                  RF: {registro_funcional} <br />
-                  {nome_instituicao}
+                  RF: {getRF()} <br />
+                  {getInstituicao()}
                 </span>
               </div>
             </div>
           )}
           {!toggled && (
-            <div className="text-center page-footer mx-auto justify-content-center mb-1 pb-2">
+            <div className="text-center page-footer mt-auto justify-content-center mb-3 pb-2">
               <p>
                 SME-SP-SGA - Distribuído sob <br />a Licença AGPL V3
               </p>

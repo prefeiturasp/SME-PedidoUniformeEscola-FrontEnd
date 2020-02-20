@@ -39,3 +39,15 @@ export const validarCPF = cpf => {
   if (rev !== parseInt(cpf.charAt(10))) return false;
   return true;
 };
+
+export const getNome = () => {
+  return localStorage.getItem("name");
+};
+
+export const getRF = () => {
+  return localStorage.getItem("rf");
+};
+
+export const getInstituicao = () => {
+  return "";
+};

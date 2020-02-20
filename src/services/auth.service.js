@@ -18,7 +18,20 @@ const login = async (username, password) => {
     const isValid = isValidResponse(json);
     if (isValid) {
       localStorage.setItem(TOKEN_ALIAS, json.token);
-      window.location.href = "/";
+      await fetch(`${CONFIG.API_URL}/api/users/me/`, {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${json.token}`,
+          "Content-Type": "application/json"
+        }
+      }).then(result => {
+        const response = result.json();
+        response.then(result => {
+          localStorage.setItem("name", result.name);
+          localStorage.setItem("rf", result.username);
+          window.location.href = "/";
+        });
+      });
     } else {
       toastError("Login e/ou senha inválidos");
     }
