@@ -1,23 +1,19 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { routes } from "./routes";
 import Login from "../screens/Login";
 import NotFoundPage from "../screens/404";
 import ConfirmarEmail from "../screens/ConfirmarEmail";
+import authService from "../services/auth.service";
 
-/*const PrivateRouter = (
+const PrivateRouter = (
   { component: Component, tipoUsuario: tipoUsuario, ...rest } // eslint-disable-line
 ) => (
   <Route
     {...rest}
     render={props =>
       authService.isLoggedIn() ? (
-        tipoUsuario ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{ pathname: "/403", state: { from: props.location } }} // eslint-disable-line
-          />
-        )
+        <Component {...props} />
       ) : (
         <Redirect
           to={{ pathname: "/login", state: { from: props.location } }} // eslint-disable-line
@@ -25,13 +21,13 @@ import ConfirmarEmail from "../screens/ConfirmarEmail";
       )
     }
   />
-);*/
+);
 
 const Routes = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/login" component={Login} />
-      {/*RoutesConfig.map((value, key) => {
+      {routes.map((value, key) => {
         return (
           <PrivateRouter
             key={key}
@@ -40,7 +36,7 @@ const Routes = () => (
             component={value.component}
           />
         );
-      })*/}
+      })}
       <Route path="/confirmar-email" component={ConfirmarEmail} />
       <Route path="*" component={NotFoundPage} />
     </Switch>

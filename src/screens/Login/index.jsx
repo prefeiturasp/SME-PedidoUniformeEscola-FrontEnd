@@ -34,9 +34,9 @@ export class Login extends Component {
   }
 
   handleSubmit = values => {
-    const { email, password } = values;
-    if (email && password) {
-      authService.login(email, password);
+    const { username, password } = values;
+    if (username && password) {
+      authService.login(username, password);
     }
   };
 
@@ -68,11 +68,11 @@ export class Login extends Component {
           <Field
             component={InputText}
             esconderAsterisco
-            label="E-mail"
-            name="email"
+            label="RF"
+            name="username"
             placeholder={"seu.nome"}
             required
-            type="email"
+            type="text"
             validate={[required]}
           />
           <Field
