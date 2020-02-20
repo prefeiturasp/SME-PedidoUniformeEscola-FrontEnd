@@ -4,11 +4,11 @@ import { toastError } from "../components/Toast/dialogs";
 
 export const TOKEN_ALIAS = "TOKEN";
 
-const login = async (email, password) => {
+const login = async (username, password) => {
   try {
     const response = await fetch(CONFIG.JWT_AUTH, {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
@@ -18,26 +18,7 @@ const login = async (email, password) => {
     const isValid = isValidResponse(json);
     if (isValid) {
       localStorage.setItem(TOKEN_ALIAS, json.token);
-      await fetch(`${CONFIG.API_URL}/usuarios/meus-dados/`, {
-        method: "GET",
-        headers: {
-          Authorization: `JWT ${json.token}`,
-          "Content-Type": "application/json"
-        }
-      }).then(result => {
-        const response = result.json();
-        response.then(result => {
-          localStorage.setItem(
-            "tipo_perfil",
-            JSON.stringify(result.tipo_usuario)
-          );
-          localStorage.setItem(
-            "perfil",
-            JSON.stringify(result.vinculo_atual.perfil.nome)
-          );
-          window.location.href = "/";
-        });
-      });
+      window.location.href = "/";
     } else {
       toastError("Login e/ou senha inválidos");
     }
