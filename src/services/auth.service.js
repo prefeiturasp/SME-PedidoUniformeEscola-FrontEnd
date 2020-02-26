@@ -46,7 +46,7 @@ const logout = () => {
   window.location.href = "/login";
 };
 
-const getToken = () => {
+export const getToken = () => {
   let token = localStorage.getItem(TOKEN_ALIAS);
   if (token) {
     if (isTokenExpired(token)) logout();

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import "./style.scss";
+import { NavLink } from "react-router-dom";
 import { getNome, getRF, getInstituicao } from "../../helpers/utils";
+import "./style.scss";
 
 export class Sidebar extends Component {
   render() {
@@ -44,6 +45,23 @@ export class Sidebar extends Component {
               </div>
             </div>
           )}
+          <div className="sidebar-wrapper div-submenu">
+            <li className="nav-item">
+              <NavLink className={`nav-link collapsed`} to="/">
+                <i className="fas fa-list-alt" />
+                <span>Painel Gerencial</span>
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                className={`nav-link collapsed`}
+                to="/lista-alunos"
+              >
+                <i className="fas fa-file-alt" />
+                <span>Consulta à situação individual</span>
+              </NavLink>
+            </li>
+          </div>
           {!toggled && (
             <div className="text-center page-footer mt-auto justify-content-center mb-3 pb-2">
               <p>
