@@ -50,6 +50,14 @@ div.table-results {
                 color: $green;
                 border: 1px solid $green;
               }
+              &.red {
+                color: $red;
+                border: 1px solid $red;
+              }
+              &.yellow {
+                color: $yellow;
+                border: 1px solid $yellow;
+              }
             }
           }
         }

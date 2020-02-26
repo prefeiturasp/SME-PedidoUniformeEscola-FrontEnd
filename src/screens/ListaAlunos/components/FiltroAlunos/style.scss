@@ -1,6 +1,14 @@
 @import "../../../../style/variables.scss";
 
 .list-filter {
+  .ReactCollapse--collapse {
+    border-left: 1px solid $grayDisabled;
+    border-right: 1px solid $grayDisabled;
+    border-bottom: 1px solid $grayDisabled;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 15px;
+  }
   .top-collapse {
     border: 1px solid $grayDisabled;
     border-radius: 4px;
@@ -28,6 +36,9 @@
         border: 1px solid #d1d3e2;
         border-radius: 0.35rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        &:disabled {
+          background-color: $grayDisabled;
+        }
       }
     }
     &.with-results {

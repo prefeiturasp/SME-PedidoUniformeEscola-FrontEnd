@@ -20,7 +20,14 @@ export default class TabelaResultados extends Component {
           <thead>
             <tr className="row">
               <th className="col-6">Nome do estudante</th>
-              <th className="col-3">Situação Cadastral</th>
+              <th className="col-3 text-center">
+                {/*<Select
+                  onChange={event => onSelectStatus(event.target.value)}
+                  options={options}
+                  naoDesabilitarPrimeiraOpcao
+                />*/}
+                Situação Cadastral
+              </th>
               <th className="col-3" />
             </tr>
           </thead>
