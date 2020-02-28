@@ -1,6 +1,9 @@
 @import "../../style/variables.scss";
 
 div.student-form {
+  .set-opacity {
+    opacity: 0.3;
+  }
   div.card-title {
     font-weight: bold;
     font-size: 20px;
