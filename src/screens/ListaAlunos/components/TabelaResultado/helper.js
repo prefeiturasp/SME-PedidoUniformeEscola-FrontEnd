@@ -2,7 +2,7 @@ export const getColor = status => {
   switch (status) {
     case "Divergente":
       return "yellow";
-    case "Desatualizado":
+    case "Cadastro Desatualizado":
       return "red";
     default:
       return "green";

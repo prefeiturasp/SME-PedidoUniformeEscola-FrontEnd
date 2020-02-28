@@ -3,8 +3,8 @@ import HTTP_STATUS from "http-status-codes";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Field, reduxForm, formValueSelector, FormSection } from "redux-form";
-import { getAluno } from "../../services/listaAlunos.service";
-import { toastError } from "../../components/Toast/dialogs";
+import { getAluno, updateAluno } from "../../services/cadastroAluno.service";
+import { toastError, toastSuccess } from "../../components/Toast/dialogs";
 import Botao from "../../components/Botao";
 import {
   BUTTON_ICON,
@@ -21,7 +21,7 @@ import {
   validaCPF,
   semPalavrasBloqueadas
 } from "../../helpers/fieldValidators";
-import { MaskCPF } from "../../helpers/utils";
+import { MaskCPF, getError } from "../../helpers/utils";
 import { validaFormulario } from "./validate";
 import { formatarPayload } from "./helper";
 import { getPalavrasBloqueadas } from "../../services/palavrasBloqueadas.service";
@@ -65,7 +65,7 @@ export class FormularioAluno extends Component {
       }
       if (responsavel.email_responsavel) {
         this.props.change(
-          "email_responsavel",
+          "responsavel.email_responsavel",
           responsavel.email_responsavel.trim()
         );
       }
@@ -99,6 +99,12 @@ export class FormularioAluno extends Component {
           responsavel.data_nascimento
         );
       }
+      if (responsavel.nome_mae) {
+        this.props.change(
+          "responsavel.nome_mae",
+          responsavel.nome_mae
+        );
+      }
     }
   };
 
@@ -108,7 +114,14 @@ export class FormularioAluno extends Component {
     if (erro) {
       toastError(erro);
     } else {
-      console.log(formatarPayload(values, aluno));
+      updateAluno(formatarPayload(values, aluno)).then(response => {
+        if (response.status === HTTP_STATUS.CREATED) {
+          toastSuccess("Aluno atualizado com sucesso!");
+          this.setState({ editar: false });
+        } else {
+          toastError(getError(response.data));
+        }
+      });
     }
   }
 

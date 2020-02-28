@@ -1,8 +1,8 @@
 import { API_URL } from "../config";
 import { AUTH_TOKEN } from "./constants";
 
-export const getListaAlunos = getParams => {
-  const url = `${API_URL}/alunos/${getParams}`;
+export const getAluno = codigoEol => {
+  const url = `${API_URL}/alunos/${codigoEol}/`;
   let status = 0;
   return fetch(url, {
     method: "GET",
@@ -20,12 +20,13 @@ export const getListaAlunos = getParams => {
     });
 };
 
-export const getTodosAlunos = () => {
+export const updateAluno = payload => {
   const url = `${API_URL}/alunos/`;
   let status = 0;
   return fetch(url, {
-    method: "GET",
-    headers: AUTH_TOKEN
+    method: "POST",
+    headers: AUTH_TOKEN,
+    body: JSON.stringify(payload)
   })
     .then(res => {
       status = res.status;
