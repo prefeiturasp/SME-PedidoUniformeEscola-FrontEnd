@@ -1,0 +1,41 @@
+@import "../../style/variables.scss";
+
+div.student-form {
+  .set-opacity {
+    opacity: 0.5;
+  }
+  div.card-title {
+    font-weight: bold;
+    font-size: 20px;
+    color: $blackInput;
+  }
+  div.title {
+    i {
+      padding-right: 10px;
+    }
+    color: $blackInput;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .col-form-label.label-outside {
+    span.required-asterisk {
+      color: $red;
+      padding-right: 5px;
+    }
+    font-size: 14px;
+  }
+  .link-with-student {
+    div.label {
+      span.required-asterisk {
+        color: $red;
+        padding-right: 5px;
+      }
+      color: $gray;
+      padding-top: 0.5em;
+      padding-bottom: 1em;
+    }
+    label.container-radio {
+      color: $blackInput;
+    }
+  }
+}

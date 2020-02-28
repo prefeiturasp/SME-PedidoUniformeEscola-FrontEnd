@@ -42,3 +42,11 @@ div.input {
     }
   }
 }
+
+.invalid-field {
+  box-shadow: none;
+  border-color: $red !important;
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2) !important;
+  }
+}

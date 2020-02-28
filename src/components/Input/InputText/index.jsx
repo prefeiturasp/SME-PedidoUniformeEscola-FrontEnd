@@ -23,7 +23,8 @@ export const InputText = props => {
     title,
     maxlength,
     pattern,
-    icone
+    icone,
+    onKeyPress
   } = props;
   return (
     <div className={`input ${icone && "icon"}`}>
@@ -50,6 +51,7 @@ export const InputText = props => {
         disabled={disabled}
         min={min}
         name={name}
+        onKeyPress={onKeyPress}
         data-cy={input.name}
         placeholder={placeholder}
         required={required}

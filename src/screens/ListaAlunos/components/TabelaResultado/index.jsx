@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import "./style.scss";
 import Botao from "../../../../components/Botao";
 import {
@@ -7,7 +8,7 @@ import {
 } from "../../../../components/Botao/constants";
 import { getColor } from "./helper";
 
-export default class TabelaResultados extends Component {
+export class TabelaResultados extends Component {
   render() {
     const { estudantes } = this.props;
     return (
@@ -46,6 +47,11 @@ export default class TabelaResultados extends Component {
                       style={BUTTON_STYLE.BLUE_OUTLINE}
                       type={BUTTON_TYPE.BUTTON}
                       texto="Visualizar cadastro"
+                      onClick={() =>
+                        this.props.history.push(
+                          `/cadastro-aluno?codigo_eol=${estudante.codigo_eol}`
+                        )
+                      }
                     />
                   </td>
                 </tr>
@@ -57,3 +63,5 @@ export default class TabelaResultados extends Component {
     );
   }
 }
+
+export default withRouter(TabelaResultados);
