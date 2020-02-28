@@ -18,7 +18,7 @@ const login = async (username, password) => {
     const isValid = isValidResponse(json);
     if (isValid) {
       localStorage.setItem(TOKEN_ALIAS, json.token);
-      await fetch(`${CONFIG.API_URL}/api/users/me/`, {
+      await fetch(`${CONFIG.API_URL}/usuarios/me/`, {
         method: "GET",
         headers: {
           Authorization: `JWT ${json.token}`,
@@ -27,8 +27,10 @@ const login = async (username, password) => {
       }).then(result => {
         const response = result.json();
         response.then(result => {
+          console.log(result);
           localStorage.setItem("name", result.name);
           localStorage.setItem("rf", result.username);
+          localStorage.setItem("nome_escola", result.nome_escola)
           window.location.href = "/";
         });
       });

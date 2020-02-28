@@ -30,6 +30,7 @@ export class FormularioAluno extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      check: false,
       aluno: null,
       vinculoEstudante: null,
       editar: false,
@@ -39,9 +40,8 @@ export class FormularioAluno extends Component {
   }
 
   componentDidMount() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const codigo_eol = urlParams.get("codigo_eol");
-    getAluno(codigo_eol).then(response => {
+    const { codigoEol } = this.props;
+    getAluno(codigoEol).then(response => {
       if (response.status === HTTP_STATUS.OK) {
         this.setState({ aluno: response.data });
         this.loadAlunoHard(response.data);
@@ -100,10 +100,7 @@ export class FormularioAluno extends Component {
         );
       }
       if (responsavel.nome_mae) {
-        this.props.change(
-          "responsavel.nome_mae",
-          responsavel.nome_mae
-        );
+        this.props.change("responsavel.nome_mae", responsavel.nome_mae);
       }
     }
   };
@@ -117,7 +114,7 @@ export class FormularioAluno extends Component {
       updateAluno(formatarPayload(values, aluno)).then(response => {
         if (response.status === HTTP_STATUS.CREATED) {
           toastSuccess("Aluno atualizado com sucesso!");
-          this.setState({ editar: false });
+          //this.setState({ editar: false });
         } else {
           toastError(getError(response.data));
         }
@@ -126,8 +123,8 @@ export class FormularioAluno extends Component {
   }
 
   render() {
-    const { check, handleSubmit } = this.props;
-    const { aluno, editar } = this.state;
+    const { handleSubmit } = this.props;
+    const { check, aluno, editar } = this.state;
     return (
       <div className="student-form">
         <div className="card">
@@ -136,7 +133,7 @@ export class FormularioAluno extends Component {
               <div>Aluno não encontrado</div>
             ) : (
               <Fragment>
-                <form onSubmit={handleSubmit(this.onSubmit)}>
+                <form formKey={2} onSubmit={handleSubmit(this.onSubmit)}>
                   <div className="row pb-3">
                     <div className="col-6">
                       <div className="card-title">{aluno.nome}</div>
@@ -349,7 +346,7 @@ export class FormularioAluno extends Component {
                             />
                             <span
                               onClick={() =>
-                                editar && this.props.change("check", !check)
+                                editar && this.setState({ check: !check })
                               }
                               className="checkbox-custom"
                             />{" "}
@@ -366,9 +363,7 @@ export class FormularioAluno extends Component {
                           disabled={!editar}
                           style={BUTTON_STYLE.BLUE_OUTLINE}
                           type={BUTTON_TYPE.BUTTON}
-                          onClick={() =>
-                            this.props.history.push("/lista-alunos")
-                          }
+                          onClick={() => (window.location.href = "/")}
                         />
                         <Botao
                           className="ml-3"
@@ -402,4 +397,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(FormularioAluno));
+export default connect(mapStateToProps)(FormularioAluno);

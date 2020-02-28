@@ -49,7 +49,7 @@ export const getRF = () => {
 };
 
 export const getInstituicao = () => {
-  return "";
+  return localStorage.getItem("nome_escola");
 };
 
 export const getKey = obj => {

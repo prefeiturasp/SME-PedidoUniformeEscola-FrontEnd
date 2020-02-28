@@ -1,15 +1,19 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import FiltroAlunos from "./components/FiltroAlunos";
 import TabelaResultados from "./components/TabelaResultado";
 import { getStatusOptions } from "./components/TabelaResultado/helper";
+import { FormularioAluno } from "../FormularioAluno";
 
-export default class ListaAlunos extends Component {
+export class ListaAlunos extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      codigo_eol: null,
       estudantes: [],
       estudantesSemFiltro: [],
-      options: []
+      options: [],
+      openCollapse: true
     };
     this.setEstudantes = this.setEstudantes.bind(this);
   }
@@ -18,6 +22,14 @@ export default class ListaAlunos extends Component {
     this.setState({ estudantes, estudantesSemFiltro: estudantes });
     const options = getStatusOptions(estudantes);
     this.setState({ options });
+  };
+
+  alterCollapse = () => {
+    this.setState({ openCollapse: !this.state.openCollapse });
+  };
+
+  setCodigoEol = codigo_eol => {
+    this.setState({ codigo_eol });
   };
 
   onSelectStatus = status => {
@@ -34,18 +46,31 @@ export default class ListaAlunos extends Component {
   };
 
   render() {
-    const { estudantes, options } = this.state;
+    const { estudantes, options, codigo_eol, openCollapse } = this.state;
     return (
       <div className="card">
         <div className="card-body">
-          <FiltroAlunos setEstudantes={this.setEstudantes} />
-          {estudantes && estudantes.length > 0 && (
+          <FiltroAlunos
+            codigoEol={codigo_eol}
+            openCollapse={openCollapse}
+            alterCollapse={this.alterCollapse}
+            setEstudantes={this.setEstudantes}
+            setCodigoEol={this.setCodigoEol}
+          />
+          {estudantes && estudantes.length > 0 && !codigo_eol && (
             <div className="pt-4">
               <TabelaResultados
                 onSelectStatus={this.onSelectStatus}
+                setCodigoEol={this.setCodigoEol}
+                alterCollapse={this.alterCollapse}
                 estudantes={estudantes}
                 options={options}
               />
+            </div>
+          )}
+          {codigo_eol && (
+            <div className="pt-3">
+              <FormularioAluno codigoEol={codigo_eol} />
             </div>
           )}
         </div>
@@ -53,3 +78,5 @@ export default class ListaAlunos extends Component {
     );
   }
 }
+
+export default ListaAlunos;
