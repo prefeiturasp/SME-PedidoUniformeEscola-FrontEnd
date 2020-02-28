@@ -34,7 +34,7 @@ export class FiltroAlunos extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate(prevState, prevProps) {
     if (this.state.nome_estudante === "" && prevState.nome_estudante !== "") {
       this.setState({ nome_estudante: null, nome_estudante_valido: null });
     }
@@ -72,6 +72,18 @@ export class FiltroAlunos extends Component {
     this.setState({ sugestoesNomesResponsaveis });
   }
 
+  resetForm() {
+    this.props.reset("ListaAlunosForm");
+    this.setState({
+      nome_estudante: null,
+      nome_estudante_valido: null,
+      nome_responsavel: null,
+      nome_responsavel_valido: null,
+      sugestoesEstudantes: null,
+      sugestoesNomesResponsaveis: null
+    });
+  }
+
   onSubmit(values) {
     const { nome_estudante_valido, nome_responsavel_valido } = this.state;
     let getParams = "?";
@@ -92,6 +104,7 @@ export class FiltroAlunos extends Component {
     }
     getListaAlunos(getParams).then(response => {
       if (response.status === HTTP_STATUS.OK) {
+        this.props.setCodigoEol(null);
         this.props.setEstudantes(response.data);
         if (response.data.length === 0) {
           toastError("Nenhum resultado encontrado");
@@ -103,9 +116,13 @@ export class FiltroAlunos extends Component {
   }
 
   render() {
-    const { handleSubmit, codigo_eol } = this.props;
     const {
+      handleSubmit,
+      codigo_eol,
       openCollapse,
+      alterCollapse
+    } = this.props;
+    const {
       nome_estudante,
       nome_estudante_valido,
       sugestoesEstudantes,
@@ -118,14 +135,14 @@ export class FiltroAlunos extends Component {
         <div className="top-collapse pt-2 pb-2">
           <label>Buscar EOL, nome de estudante ou nome do responsável</label>
           <ToggleExpandir
-            onClick={() => this.setState({ openCollapse: !openCollapse })}
+            onClick={() => alterCollapse()}
             ativo={openCollapse}
             className="float-right"
           />
         </div>
         {openCollapse && (
           <Collapse isOpened={openCollapse}>
-            <form onSubmit={handleSubmit(this.onSubmit)}>
+            <form formKey={1} onSubmit={handleSubmit(this.onSubmit)}>
               <div className="form-group row">
                 <div className="col-4">
                   <Field
@@ -188,7 +205,15 @@ export class FiltroAlunos extends Component {
                 </div>
               </div>
               <div className="row pb-5">
-                <div className="col-12 text-right">
+                <div className="col-6">
+                  <Botao
+                    style={BUTTON_STYLE.RED_OUTLINE}
+                    type={BUTTON_TYPE.BUTTON}
+                    texto="Limpar"
+                    onClick={() => this.resetForm()}
+                  />
+                </div>
+                <div className="col-6 text-right">
                   <Botao
                     style={BUTTON_STYLE.BLUE}
                     type={BUTTON_TYPE.SUBMIT}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import "./style.scss";
 import Botao from "../../../../components/Botao";
+import { Select } from "../../../../components/Select";
 import {
   BUTTON_STYLE,
   BUTTON_TYPE
@@ -10,7 +11,13 @@ import { getColor } from "./helper";
 
 export class TabelaResultados extends Component {
   render() {
-    const { estudantes } = this.props;
+    const {
+      alterCollapse,
+      estudantes,
+      setCodigoEol,
+      options,
+      onSelectStatus
+    } = this.props;
     return (
       <div className="table-results">
         <div className="title">
@@ -22,12 +29,11 @@ export class TabelaResultados extends Component {
             <tr className="row">
               <th className="col-6">Nome do estudante</th>
               <th className="col-3 text-center">
-                {/*<Select
+                <Select
                   onChange={event => onSelectStatus(event.target.value)}
                   options={options}
                   naoDesabilitarPrimeiraOpcao
-                />*/}
-                Situação Cadastral
+                />
               </th>
               <th className="col-3" />
             </tr>
@@ -47,11 +53,10 @@ export class TabelaResultados extends Component {
                       style={BUTTON_STYLE.BLUE_OUTLINE}
                       type={BUTTON_TYPE.BUTTON}
                       texto="Visualizar cadastro"
-                      onClick={() =>
-                        this.props.history.push(
-                          `/cadastro-aluno?codigo_eol=${estudante.codigo_eol}`
-                        )
-                      }
+                      onClick={() => {
+                        setCodigoEol(estudante.codigo_eol);
+                        alterCollapse();
+                      }}
                     />
                   </td>
                 </tr>
