@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import FiltroAlunos from "./components/FiltroAlunos";
 import TabelaResultados from "./components/TabelaResultado";
 import { getStatusOptions } from "./components/TabelaResultado/helper";

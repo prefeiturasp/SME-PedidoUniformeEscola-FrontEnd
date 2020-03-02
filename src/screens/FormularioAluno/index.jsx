@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import HTTP_STATUS from "http-status-codes";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { Field, reduxForm, formValueSelector, FormSection } from "redux-form";
 import { getAluno, updateAluno } from "../../services/cadastroAluno.service";
 import { toastError, toastSuccess } from "../../components/Toast/dialogs";
@@ -34,7 +33,8 @@ export class FormularioAluno extends Component {
       aluno: null,
       vinculoEstudante: null,
       editar: false,
-      palavrasBloqueadas: null
+      palavrasBloqueadas: null,
+      sending: false
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -87,6 +87,12 @@ export class FormularioAluno extends Component {
           responsavel.tp_pessoa_responsavel.trim()
         );
       }
+      if (responsavel.cpf_eol) {
+        this.props.change(
+          "responsavel.cpf_eol",
+          responsavel.cpf_eol.toString().trim()
+        );
+      }
       if (responsavel.cd_cpf_responsavel) {
         this.props.change(
           "responsavel.cd_cpf_responsavel",
@@ -111,10 +117,11 @@ export class FormularioAluno extends Component {
     if (erro) {
       toastError(erro);
     } else {
+      this.setState({ sending: true });
       updateAluno(formatarPayload(values, aluno)).then(response => {
+        this.setState({ sending: false });
         if (response.status === HTTP_STATUS.CREATED) {
           toastSuccess("Aluno atualizado com sucesso!");
-          //this.setState({ editar: false });
         } else {
           toastError(getError(response.data));
         }
@@ -124,7 +131,7 @@ export class FormularioAluno extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    const { check, aluno, editar } = this.state;
+    const { check, aluno, editar, sending } = this.state;
     return (
       <div className="student-form">
         <div className="card">
@@ -284,7 +291,7 @@ export class FormularioAluno extends Component {
                             {...MaskCPF}
                             component={InputText}
                             label="CPF do responsável no EOL"
-                            name="cd_cpf_responsavel"
+                            name="cpf_eol"
                             disabled
                             required
                             type="text"
@@ -367,8 +374,8 @@ export class FormularioAluno extends Component {
                         />
                         <Botao
                           className="ml-3"
-                          texto="Atualizar cadastro"
-                          disabled={!editar}
+                          texto={sending ? `Aguarde...` : `Atualizar cadastro`}
+                          disabled={!editar || sending}
                           style={BUTTON_STYLE.BLUE}
                           type={BUTTON_TYPE.SUBMIT}
                         />
