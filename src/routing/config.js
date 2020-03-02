@@ -24,7 +24,7 @@ const PrivateRouter = (
 );
 
 const Routes = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/escola">
     <Switch>
       <Route path="/login" component={Login} />
       {routes.map((value, key) => {

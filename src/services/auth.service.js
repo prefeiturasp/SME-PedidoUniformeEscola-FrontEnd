@@ -31,7 +31,7 @@ const login = async (username, password) => {
           localStorage.setItem("name", result.name);
           localStorage.setItem("rf", result.username);
           localStorage.setItem("nome_escola", result.nome_escola)
-          window.location.href = "/";
+          window.location.href = "/escola";
         });
       });
     } else {
