@@ -3,7 +3,7 @@ import Page from "../components/Page";
 import Dashboard from "../screens/Dashboard";
 
 export default () => (
-  <Page titulo={"Dashboard"}>
+  <Page titulo={"Painel Gerencial"}>
     <Dashboard />
   </Page>
 );
