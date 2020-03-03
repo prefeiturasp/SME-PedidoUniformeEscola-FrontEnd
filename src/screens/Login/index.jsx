@@ -50,7 +50,7 @@ export class Login extends Component {
         if (response.status === HTTP_STATUS.OK) {
           toastSuccess(`Cadastro efetuado com sucesso!`);
           this.setState({ bloquearBotao: false });
-          setTimeout(() => (window.location.href = "/login"));
+          setTimeout(() => (window.location.href = `${process.env.PUBLIC_URL}/login`));
         } else if (response.status === HTTP_STATUS.BAD_REQUEST) {
           toastError(response.data.detail);
           this.setState({ bloquearBotao: false });
