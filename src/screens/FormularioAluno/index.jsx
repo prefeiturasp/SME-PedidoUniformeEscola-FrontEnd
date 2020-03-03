@@ -368,7 +368,9 @@ export class FormularioAluno extends Component {
                           disabled={!editar}
                           style={BUTTON_STYLE.BLUE_OUTLINE}
                           type={BUTTON_TYPE.BUTTON}
-                          onClick={() => (window.location.href = "/")}
+                          onClick={() =>
+                            (window.location.href = `/${process.env.PUBLIC_URL}`)
+                          }
                         />
                         <Botao
                           className="ml-3"
