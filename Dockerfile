@@ -4,9 +4,7 @@ WORKDIR /app
 COPY . ./
 ENV PUBLIC_URL=escola
 RUN npm install
-RUN npm run-script build
-RUN mkdir /app/build/escola
-RUN mv /app/build/static /app/build/escola
+RUN npm run-script build-subrota
 
 # replace strings, this way we can pass parameters to static files.
 # For more details:

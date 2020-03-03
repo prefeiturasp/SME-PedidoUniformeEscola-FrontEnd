@@ -6,7 +6,7 @@ const REFRESH_TOKEN_TIMEOUT = process.env.REACT_APP_REFRESH_TOKEN_TIMEOUT;
 let API_URL = "API_URL_REPLACE_ME";
 let JWT_AUTH = "API_URL_REPLACE_ME/api-token-auth/";
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
   API_URL = process.env.REACT_APP_API_URL;
   JWT_AUTH = `${API_URL}/api-token-auth/`;
 }

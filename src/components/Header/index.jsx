@@ -12,7 +12,7 @@ export class Header extends Component {
           <div className="container-fluid">
             <div className={`nav-bar ${toggled && "toggled"}`}>
               <Link className="navbar-brand" to="/">
-                <img src="/assets/images/logo-pedidouniformes.png" alt="" />
+                <img src={`${process.env.PUBLIC_URL}/assets/images/logo-pedidouniformes.png`} alt="" />
               </Link>
             </div>
             <button
@@ -31,7 +31,7 @@ export class Header extends Component {
               <ul className="navbar-nav ml-auto">
                 <li onClick={() => authService.logout()} className="nav-item">
                   <Link className="nav-link">
-                    <img src="/assets/images/sair.png" alt="Ícone de logout" />
+                    <img src={`${process.env.PUBLIC_URL}/assets/images/sair.png`} alt="Ícone de logout" />
                   </Link>
                   <p className="title">Sair</p>
                 </li>

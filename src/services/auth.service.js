@@ -31,7 +31,7 @@ const login = async (username, password) => {
           localStorage.setItem("name", result.name);
           localStorage.setItem("rf", result.username);
           localStorage.setItem("nome_escola", result.nome_escola)
-          window.location.href = "/escola";
+          window.location.href = `/${process.env.PUBLIC_URL}`;
         });
       });
     } else {
@@ -45,7 +45,7 @@ const login = async (username, password) => {
 
 const logout = () => {
   localStorage.removeItem(TOKEN_ALIAS);
-  window.location.href = "/login";
+  window.location.href = `/${process.env.PUBLIC_URL}/login`
 };
 
 export const getToken = () => {

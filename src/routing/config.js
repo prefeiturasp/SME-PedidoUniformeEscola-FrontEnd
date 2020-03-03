@@ -24,7 +24,7 @@ const PrivateRouter = (
 );
 
 const Routes = () => (
-  <BrowserRouter basename="/escola">
+  <BrowserRouter basename={`/${process.env.PUBLIC_URL}`}>
     <Switch>
       <Route path="/login" component={Login} />
       {routes.map((value, key) => {

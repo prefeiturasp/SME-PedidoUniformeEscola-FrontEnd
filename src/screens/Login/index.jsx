@@ -222,11 +222,11 @@ export class Login extends Component {
         <div className="right-half">
           <div className="container my-auto">
             <div className="logo-sigpae">
-              <img src="/assets/images/logo-pgscue-com-texto.png" alt="" />
+              <img src={`${process.env.PUBLIC_URL}/assets/images/logo-pgscue-com-texto.png`} alt="" />
             </div>
             {exibirCadastro ? this.renderCadastro() : this.renderLogin()}
             <div className="logo-prefeitura">
-              <img src="/assets/images/logo-sme.svg" alt="" />
+              <img src={`${process.env.PUBLIC_URL}/assets/images/logo-sme.svg`} alt="" />
             </div>
           </div>
         </div>
