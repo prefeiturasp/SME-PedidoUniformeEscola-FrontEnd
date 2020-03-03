@@ -293,9 +293,7 @@ export class FormularioAluno extends Component {
                             label="CPF do responsável no EOL"
                             name="cpf_eol"
                             disabled
-                            required
                             type="text"
-                            validate={[required, validaCPF]}
                           />
                         </div>
                         <div className="col-4">
