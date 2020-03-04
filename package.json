@@ -1,6 +1,7 @@
 {
   "name": "portal-uniformes-escola",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -29,6 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-subrota": "react-scripts build && mkdir build/escola && mv build/assets build/escola && mv build/static build/escola && mkdir build/escola/escola && cp -r build/escola/assets build/escola/escola && cp -r build/escola/static build/escola/escola",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

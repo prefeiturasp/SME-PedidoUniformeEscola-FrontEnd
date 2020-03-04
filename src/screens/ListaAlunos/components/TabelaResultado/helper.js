@@ -1,6 +1,8 @@
 export const getColor = status => {
   switch (status) {
-    case "Divergente":
+    case "Cadastro Divergente":
+      return "orange";
+    case "Cadastro com Pendência Resolvida":
       return "yellow";
     case "Cadastro Desatualizado":
       return "red";

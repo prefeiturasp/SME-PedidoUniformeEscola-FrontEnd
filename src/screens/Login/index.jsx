@@ -50,7 +50,7 @@ export class Login extends Component {
         if (response.status === HTTP_STATUS.OK) {
           toastSuccess(`Cadastro efetuado com sucesso!`);
           this.setState({ bloquearBotao: false });
-          setTimeout(() => (window.location.href = "/login"));
+          setTimeout(() => (window.location.href = `/${process.env.PUBLIC_URL}/login`));
         } else if (response.status === HTTP_STATUS.BAD_REQUEST) {
           toastError(response.data.detail);
           this.setState({ bloquearBotao: false });
@@ -222,11 +222,11 @@ export class Login extends Component {
         <div className="right-half">
           <div className="container my-auto">
             <div className="logo-sigpae">
-              <img src="/assets/images/logo-pgscue-com-texto.png" alt="" />
+              <img src={`/${process.env.PUBLIC_URL}/assets/images/logo-pgscue-com-texto.png`} alt="" />
             </div>
             {exibirCadastro ? this.renderCadastro() : this.renderLogin()}
             <div className="logo-prefeitura">
-              <img src="/assets/images/logo-sme.svg" alt="" />
+              <img src={`/${process.env.PUBLIC_URL}/assets/images/logo-sme.svg`} alt="" />
             </div>
           </div>
         </div>

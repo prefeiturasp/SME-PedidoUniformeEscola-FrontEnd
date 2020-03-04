@@ -2,7 +2,7 @@ import decode from "jwt-decode";
 import CONFIG from "../config";
 import { toastError } from "../components/Toast/dialogs";
 
-export const TOKEN_ALIAS = "TOKEN";
+export const TOKEN_ALIAS = "TOKEN_LOGGED";
 
 const login = async (username, password) => {
   try {
@@ -27,11 +27,10 @@ const login = async (username, password) => {
       }).then(result => {
         const response = result.json();
         response.then(result => {
-          console.log(result);
           localStorage.setItem("name", result.name);
           localStorage.setItem("rf", result.username);
-          localStorage.setItem("nome_escola", result.nome_escola)
-          window.location.href = "/";
+          localStorage.setItem("nome_escola", result.nome_escola);
+          window.location.href = `/${process.env.PUBLIC_URL}`;
         });
       });
     } else {
@@ -45,7 +44,10 @@ const login = async (username, password) => {
 
 const logout = () => {
   localStorage.removeItem(TOKEN_ALIAS);
-  window.location.href = "/login";
+  localStorage.removeItem("name");
+  localStorage.removeItem("rf");
+  localStorage.removeItem("nome_escola");
+  window.location.href = `/${process.env.PUBLIC_URL}/login`;
 };
 
 export const getToken = () => {

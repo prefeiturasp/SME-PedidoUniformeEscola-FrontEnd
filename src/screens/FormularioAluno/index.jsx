@@ -293,9 +293,7 @@ export class FormularioAluno extends Component {
                             label="CPF do responsável no EOL"
                             name="cpf_eol"
                             disabled
-                            required
                             type="text"
-                            validate={[required, validaCPF]}
                           />
                         </div>
                         <div className="col-4">
@@ -370,7 +368,9 @@ export class FormularioAluno extends Component {
                           disabled={!editar}
                           style={BUTTON_STYLE.BLUE_OUTLINE}
                           type={BUTTON_TYPE.BUTTON}
-                          onClick={() => (window.location.href = "/")}
+                          onClick={() =>
+                            (window.location.href = `/${process.env.PUBLIC_URL}`)
+                          }
                         />
                         <Botao
                           className="ml-3"
