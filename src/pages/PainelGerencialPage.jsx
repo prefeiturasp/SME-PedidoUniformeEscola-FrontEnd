@@ -1,9 +1,9 @@
 import React from "react";
 import Page from "../components/Page";
-import Dashboard from "../screens/Dashboard";
+import PainelGerencial from "../screens/PainelGerencial";
 
 export default () => (
   <Page titulo={"Painel Gerencial"}>
-    <Dashboard />
+    <PainelGerencial />
   </Page>
 );

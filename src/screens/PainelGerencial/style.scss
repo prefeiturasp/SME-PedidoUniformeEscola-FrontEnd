@@ -6,13 +6,18 @@ div.panel-management {
       padding-top: 0px !important;
       padding-left: 1em !important;
       padding-bottom: 1em !important;
+      padding-right: 1em !important;
     }
+  }
+  hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
   div.card-title {
     color: $blackTitle;
     font-size: 16px;
     font-weight: bold;
-    padding-left: 2em;
+    padding-left: 1em;
     padding-top: 1em;
     margin-bottom: 0;
   }
@@ -48,6 +53,22 @@ div.panel-management {
     &.fourth-card {
       padding: 1em;
       background-color: $redLight;
+      .number {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+      }
+    }
+    &.fifth-card {
+      padding: 1em;
+      background-color: $yellowMustard;
+      .number {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+      }
+    }
+    &.sixth-card {
+      padding: 1em;
+      background-color: $orangeLight;
       .number {
         padding-right: 0.2em;
         padding-left: 0.2em;
