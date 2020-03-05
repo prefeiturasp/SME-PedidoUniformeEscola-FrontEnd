@@ -42,13 +42,13 @@ export default class GraficoVagasMatriculasSME extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      rContainerHeight: 250,
+      rContainerHeight: 350,
       vAlignLegenda: "top",
       alignLegenda: "right",
       marginLegenda: {
-        marginTop: "65px",
-        marginLeft: "0px"
-      },
+        marginTop: "200px",
+        marginLeft: "100px"
+      }
     };
   }
 
@@ -58,18 +58,19 @@ export default class GraficoVagasMatriculasSME extends PureComponent {
       <React.Fragment>
         <ResponsiveContainer
           className="mx-auto my-2"
-          width="75%"
+          width="90%"
           height={this.state.rContainerHeight}
         >
-          <PieChart width={400} height={400}>
+          <PieChart>
             <Pie
               data={dados}
-              cx={100}
-              cy={100}
+              cx={150}
+              cy={170}
               isAnimationActive={false}
               label
-              outerRadius={80}
-              innerRadius={40}
+              className="legend-style"
+              outerRadius={110}
+              innerRadius={50}
               fill="#8884d8"
               nameKey="dado"
               dataKey="valor"
@@ -84,12 +85,12 @@ export default class GraficoVagasMatriculasSME extends PureComponent {
             </Pie>
             <Pie
               data={dados}
-              cx={100}
-              cy={100}
+              cx={150}
+              cy={170}
               isAnimationActive={false}
               label={renderCustomizedLabel}
-              outerRadius={80}
-              innerRadius={40}
+              outerRadius={110}
+              innerRadius={50}
               fill="#8884d8"
               nameKey="dado"
               dataKey="valor"

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { getDadosPainelGerencial } from "../../services/painelGerencial.service";
 import GraficoPizza from "../../components/GraficoPizza";
 import "./style.scss";
@@ -148,12 +148,18 @@ export default class PainelGerencial extends Component {
             )}
           </div>
         </div>
-        <div className="card">
+        <div className="card graph mt-3">
           <div className="card-body">
             {!dados ? (
               <div>Carregando...</div>
             ) : (
-              <GraficoPizza dados={formatarDados(dados)} />
+              <Fragment>
+                <div className="title">
+                  <i className="fas fa-chart-pie" />
+                  Estado da atualização cadastral
+                </div>
+                <GraficoPizza dados={formatarDados(dados)} />
+              </Fragment>
             )}
           </div>
         </div>

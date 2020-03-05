@@ -1,6 +1,18 @@
 @import "../../style/variables.scss";
 
 div.panel-management {
+  div.card {
+    &.graph {
+      div.title {
+        i {
+          padding-right: 10px;
+        }
+        color: $blackInput;
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+  }
   div.card-body {
     &.padding-altered {
       padding-top: 0px !important;
