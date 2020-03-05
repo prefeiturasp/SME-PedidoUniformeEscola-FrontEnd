@@ -47,7 +47,9 @@ const logout = () => {
   localStorage.removeItem("name");
   localStorage.removeItem("rf");
   localStorage.removeItem("nome_escola");
-  window.location.href = `/${process.env.PUBLIC_URL}/login`;
+  window.location.href = process.env.PUBLIC_URL
+    ? `/${process.env.PUBLIC_URL}/login`
+    : "/login";
 };
 
 export const getToken = () => {
