@@ -21,6 +21,7 @@ export class Login extends Component {
     this.state = {
       bloquearBotao: false,
       exibirCadastro: false,
+      cadastradoComSucesso: false,
       width: null
     };
     this.emailInput = React.createRef();
@@ -49,8 +50,7 @@ export class Login extends Component {
       setUsuario(values).then(response => {
         if (response.status === HTTP_STATUS.OK) {
           toastSuccess(`Cadastro efetuado com sucesso!`);
-          this.setState({ bloquearBotao: false });
-          setTimeout(() => (window.location.href = `/${process.env.PUBLIC_URL}/login`));
+          this.setState({ bloquearBotao: false, cadastradoComSucesso: true });
         } else if (response.status === HTTP_STATUS.BAD_REQUEST) {
           toastError(response.data.detail);
           this.setState({ bloquearBotao: false });
@@ -214,19 +214,60 @@ export class Login extends Component {
     );
   }
 
+  renderCadastradoComSucesso = () => {
+    return (
+      <div className="message-signup-success pt-3 pb-3">
+        Dados salvos com sucesso. Para ativar seu usuário no ambiente
+        administrativo do Portal do Uniforme, acesse a caixa postal do seu
+        e-mail cadastrado, entre na mensagem intitulada "Confirme seu e-mail -
+        Ambiente administrativo do Portal do Uniforme" e clique no link indicado
+        nela.
+        <div className="row">
+          <div className="col-12 text-center">
+            <Botao
+              type={BUTTON_TYPE.SUBMIT}
+              style={BUTTON_STYLE.BLUE}
+              texto="Ir para o login"
+              className="mt-5"
+              onClick={() => this.setState({ cadastradoComSucesso: false })}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
-    const { exibirCadastro } = this.state;
+    const { cadastradoComSucesso, exibirCadastro } = this.state;
     return (
       <div>
         <div className="login-bg" />
         <div className="right-half">
           <div className="container my-auto">
             <div className="logo-sigpae">
-              <img src={`/${process.env.PUBLIC_URL}/assets/images/logo-pgscue-com-texto.png`} alt="" />
+              <img
+                src={
+                  process.env.PUBLIC_URL
+                    ? `/${process.env.PUBLIC_URL}/assets/images/logo-pgscue-com-texto.png`
+                    : "/assets/images/logo-pgscue-com-texto.png"
+                }
+                alt=""
+              />
             </div>
-            {exibirCadastro ? this.renderCadastro() : this.renderLogin()}
+            {cadastradoComSucesso
+              ? this.renderCadastradoComSucesso()
+              : exibirCadastro
+              ? this.renderCadastro()
+              : this.renderLogin()}
             <div className="logo-prefeitura">
-              <img src={`/${process.env.PUBLIC_URL}/assets/images/logo-sme.svg`} alt="" />
+              <img
+                src={
+                  process.env.PUBLIC_URL
+                    ? `/${process.env.PUBLIC_URL}/assets/images/logo-sme.svg`
+                    : "/assets/images/logo-sme.svg"
+                }
+                alt=""
+              />
             </div>
           </div>
         </div>
