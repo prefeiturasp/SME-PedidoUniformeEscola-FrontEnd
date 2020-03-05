@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { getDadosPainelGerencial } from "../../services/painelGerencial.service";
+import GraficoPizza from "../../components/GraficoPizza";
 import "./style.scss";
+import { formatarDados } from "./helper";
 
 export default class PainelGerencial extends Component {
   constructor(props) {
@@ -143,6 +145,15 @@ export default class PainelGerencial extends Component {
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-body">
+            {!dados ? (
+              <div>Carregando...</div>
+            ) : (
+              <GraficoPizza dados={formatarDados(dados)} />
             )}
           </div>
         </div>
