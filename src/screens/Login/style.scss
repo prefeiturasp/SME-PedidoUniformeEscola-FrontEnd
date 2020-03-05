@@ -68,6 +68,9 @@ a.hyperlink {
     }
     .logo-prefeitura {
       text-align: center;
+      position: absolute;
+      left: 37%;
+      bottom: 2em;
       @media screen and (max-height: 610px) {
         padding-top: 1rem;
         img {
@@ -220,4 +223,10 @@ div.input-group.email-sme {
       }
     }
   }
+}
+
+.message-signup-success {
+  font-size: 14px;
+  color: $blackInput;
+  text-align: justify;
 }
