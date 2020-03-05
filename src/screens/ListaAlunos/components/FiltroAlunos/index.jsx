@@ -188,7 +188,7 @@ export class FiltroAlunos extends Component {
                   }`}
                 >
                   <label htmlFor="nome_estudante" className={`col-form-label`}>
-                    Nome do Responsável do Estudante
+                    Nome do Responsável por Estudante
                   </label>
                   <AutoComplete
                     name="nome_responsavel"
