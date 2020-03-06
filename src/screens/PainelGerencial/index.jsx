@@ -36,14 +36,7 @@ export class PainelGerencial extends Component {
                     <div className="card-body padding-altered">
                       <div className="row">
                         <div className="col-6">
-                          <div
-                            onClick={() =>
-                              this.props.history.push(
-                                `/lista-alunos?status=Cadastro Atualizado e validado`
-                              )
-                            }
-                            className="colored first-card"
-                          >
+                          <div className="colored first-card">
                             <div className="number">
                               {dados["Cadastros Validados"][
                                 "alunos online"
@@ -59,14 +52,7 @@ export class PainelGerencial extends Component {
                           </div>
                         </div>
                         <div className="col-6">
-                          <div
-                            onClick={() =>
-                              this.props.history.push(
-                                `/lista-alunos?status=Cadastro Atualizado e validado`
-                              )
-                            }
-                            className="colored second-card"
-                          >
+                          <div className="colored second-card">
                             <div className="number">
                               {dados["Cadastros Validados"][
                                 "alunos escola"
@@ -82,7 +68,14 @@ export class PainelGerencial extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="colored third-card mt-4">
+                      <div
+                        onClick={() =>
+                          this.props.history.push(
+                            `/lista-alunos?status=Cadastro Atualizado e validado`
+                          )
+                        }
+                        className="colored third-card mt-4"
+                      >
                         <span className="bigger-label">Total:</span>
                         <span className="number">
                           {dados["Cadastros Validados"]["total"].toString()}
@@ -188,6 +181,8 @@ export class PainelGerencial extends Component {
           <div className="card-body">
             {!dados ? (
               <div>Carregando...</div>
+            ) : dados["total alunos"] === 0 ? (
+              <div>Nenhum dado disponível para o gráfico.</div>
             ) : (
               <Fragment>
                 <div className="title">
