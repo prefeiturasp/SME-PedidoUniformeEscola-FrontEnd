@@ -12,7 +12,7 @@ import { getColor } from "./helper";
 export class TabelaResultados extends Component {
   render() {
     const {
-      alterCollapse,
+      closeCollapse,
       estudantes,
       setCodigoEol,
       options,
@@ -55,7 +55,7 @@ export class TabelaResultados extends Component {
                       texto="Visualizar cadastro"
                       onClick={() => {
                         setCodigoEol(estudante.codigo_eol);
-                        alterCollapse();
+                        closeCollapse();
                       }}
                     />
                   </td>

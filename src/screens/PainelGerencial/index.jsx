@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
 import { getDadosPainelGerencial } from "../../services/painelGerencial.service";
 import GraficoPizza from "../../components/GraficoPizza";
 import "./style.scss";
 import { formatarDados } from "./helper";
 
-export default class PainelGerencial extends Component {
+export class PainelGerencial extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +36,14 @@ export default class PainelGerencial extends Component {
                     <div className="card-body padding-altered">
                       <div className="row">
                         <div className="col-6">
-                          <div className="colored first-card">
+                          <div
+                            onClick={() =>
+                              this.props.history.push(
+                                `/lista-alunos?status=Cadastro Atualizado e validado`
+                              )
+                            }
+                            className="colored first-card"
+                          >
                             <div className="number">
                               {dados["Cadastros Validados"][
                                 "alunos online"
@@ -51,7 +59,14 @@ export default class PainelGerencial extends Component {
                           </div>
                         </div>
                         <div className="col-6">
-                          <div className="colored second-card">
+                          <div
+                            onClick={() =>
+                              this.props.history.push(
+                                `/lista-alunos?status=Cadastro Atualizado e validado`
+                              )
+                            }
+                            className="colored second-card"
+                          >
                             <div className="number">
                               {dados["Cadastros Validados"][
                                 "alunos escola"
@@ -86,7 +101,14 @@ export default class PainelGerencial extends Component {
                     <div className="card-title">Cadastros desatualizados</div>
                     <hr />
                     <div className="card-body padding-altered">
-                      <div className="colored fourth-card">
+                      <div
+                        onClick={() =>
+                          this.props.history.push(
+                            `/lista-alunos?status=Cadastro Desatualizado`
+                          )
+                        }
+                        className="colored fourth-card"
+                      >
                         <span className="number">
                           {dados["Cadastros desatualizados"].toString()}
                         </span>
@@ -106,7 +128,14 @@ export default class PainelGerencial extends Component {
                         </div>
                         <hr />
                         <div className="card-body padding-altered">
-                          <div className="colored fifth-card">
+                          <div
+                            onClick={() =>
+                              this.props.history.push(
+                                `/lista-alunos?status=Cadastro com Pendência Resolvida`
+                              )
+                            }
+                            className="colored fifth-card"
+                          >
                             <span className="number">
                               {dados[
                                 "Cadastros com pendências resolvidas"
@@ -129,7 +158,14 @@ export default class PainelGerencial extends Component {
                         </div>
                         <hr />
                         <div className="card-body padding-altered">
-                          <div className="colored sixth-card">
+                          <div
+                            onClick={() =>
+                              this.props.history.push(
+                                `/lista-alunos?status=Cadastro Divergente`
+                              )
+                            }
+                            className="colored sixth-card"
+                          >
                             <span className="number">
                               {dados["Cadastros divergentes"].toString()}
                             </span>
@@ -167,3 +203,5 @@ export default class PainelGerencial extends Component {
     );
   }
 }
+
+export default withRouter(PainelGerencial);

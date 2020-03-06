@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import HTTP_STATUS from "http-status-codes";
 import FiltroAlunos from "./components/FiltroAlunos";
 import TabelaResultados from "./components/TabelaResultado";
 import { getStatusOptions } from "./components/TabelaResultado/helper";
 import { FormularioAluno } from "../FormularioAluno";
+import { getListaAlunos } from "../../services/listaAlunos.service";
+import { toastError } from "../../components/Toast/dialogs";
 
 export class ListaAlunos extends Component {
   constructor(props) {
@@ -17,6 +20,25 @@ export class ListaAlunos extends Component {
     this.setEstudantes = this.setEstudantes.bind(this);
   }
 
+  componentDidMount() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("status");
+    if (status) {
+      getListaAlunos(`?status=${status}`).then(response => {
+        if (response.status === HTTP_STATUS.OK) {
+          this.setCodigoEol(null);
+          this.setEstudantes(response.data);
+          this.setState({ openCollapse: false });
+          if (response.data.length === 0) {
+            toastError("Nenhum resultado encontrado");
+          }
+        } else {
+          toastError(response.data.detail);
+        }
+      });
+    }
+  }
+
   setEstudantes = estudantes => {
     this.setState({ estudantes, estudantesSemFiltro: estudantes });
     const options = getStatusOptions(estudantes);
@@ -25,6 +47,10 @@ export class ListaAlunos extends Component {
 
   alterCollapse = () => {
     this.setState({ openCollapse: !this.state.openCollapse });
+  };
+
+  closeCollapse = () => {
+    this.setState({ openCollapse: false });
   };
 
   setCodigoEol = codigo_eol => {
@@ -62,6 +88,7 @@ export class ListaAlunos extends Component {
                 onSelectStatus={this.onSelectStatus}
                 setCodigoEol={this.setCodigoEol}
                 alterCollapse={this.alterCollapse}
+                closeCollapse={this.closeCollapse}
                 estudantes={estudantes}
                 options={options}
               />
