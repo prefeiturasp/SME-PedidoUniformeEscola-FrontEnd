@@ -22,7 +22,7 @@ import * as serviceWorker from "./serviceWorker";
 
 toast.configure();
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.IS_DOCKER_ENVIRONMENT === true) {
   const SENTRY_URL = "SENTRY_URL_REPLACE_ME";
   Sentry.init({ dsn: SENTRY_URL });
 }

@@ -1,5 +1,6 @@
 # just to create `build` directory
 FROM node:10.15.3-alpine as builder
+ENV IS_DOCKER_ENVIRONMENT=true
 WORKDIR /app
 COPY . ./
 ENV PUBLIC_URL=adm-escola
@@ -11,6 +12,7 @@ RUN npm run-script build-subrota
 # https://stackoverflow.com/questions/48595829/how-to-pass-environment-variables-to-a-frontend-web-application
 
 FROM nginx:alpine
+ENV IS_DOCKER_ENVIRONMENT=true
 ENV PUBLIC_URL=adm-escola
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
