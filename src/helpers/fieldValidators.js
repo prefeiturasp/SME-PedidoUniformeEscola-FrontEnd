@@ -165,5 +165,5 @@ export const semPalavrasBloqueadas = value =>
       .split(" ")
       .includes(palavra)
   )
-    ? `Não são permitas palavras inapropriadas`
+    ? `Não são permitidas palavras inapropriadas`
     : undefined;
