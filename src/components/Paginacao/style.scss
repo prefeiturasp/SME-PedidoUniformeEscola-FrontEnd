@@ -1,4 +1,4 @@
-@import "../../../styles/variables.scss";
+@import "../../style/variables.scss";
 
 .footer-pagination-default {
   display: flex;
@@ -19,7 +19,7 @@
       height: 32px;
     }
     li.ant-pagination-item-active {
-      background-color: $green !important;
+      background-color: $blue !important;
       color: $white;
     }
   }

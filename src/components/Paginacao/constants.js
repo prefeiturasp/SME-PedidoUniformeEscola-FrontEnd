@@ -1,2 +1,3 @@
 /* eslint-disable */
-const QUANTIDADE_POR_PAGINA = 100;
+export const QUANTIDADE_POR_PAGINA = 15;
+

@@ -1,7 +1,8 @@
 import React from "react";
 import "antd/dist/antd.css";
-import "./style.scss";
 import { Pagination } from "antd";
+import "./style.scss";
+import { QUANTIDADE_POR_PAGINA } from "./constants";
 
 export const Paginacao = props => {
   const { total, onChange, className, ...rest } = props;
@@ -10,7 +11,7 @@ export const Paginacao = props => {
       <Pagination
         className={className}
         defaultCurrent={1}
-        defaultPageSize={100}
+        defaultPageSize={QUANTIDADE_POR_PAGINA}
         onChange={onChange}
         total={total}
         size="medium"
