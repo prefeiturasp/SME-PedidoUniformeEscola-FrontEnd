@@ -26,7 +26,8 @@ export class TabelaResultados extends Component {
       estudantes,
       setCodigoEol,
       options,
-      onSelectStatus
+      onSelectStatus,
+      setDataNascimento
     } = this.props;
     const { pagina } = this.state;
     return (
@@ -58,10 +59,16 @@ export class TabelaResultados extends Component {
               .map((estudante, key) => {
                 return (
                   <tr className="row" key={key}>
-                    <td className="col-6">{estudante.nome}</td>
+                    <td className="col-6">
+                      {estudante.nome || estudante.cd_aluno.toString()}
+                    </td>
                     <td className={`col-3 text-center status`}>
-                      <span className={`${getColor(estudante.status)}`}>
-                        {estudante.status}
+                      <span
+                        className={`${getColor(
+                          estudante.status || "Cadastro Desatualizado"
+                        )}`}
+                      >
+                        {estudante.status || "Cadastro Desatualizado"}
                       </span>
                     </td>
                     <td className="col-3 text-center">
@@ -70,7 +77,10 @@ export class TabelaResultados extends Component {
                         type={BUTTON_TYPE.BUTTON}
                         texto="Visualizar cadastro"
                         onClick={() => {
-                          setCodigoEol(estudante.codigo_eol);
+                          setCodigoEol(
+                            estudante.codigo_eol || estudante.cd_aluno
+                          );
+                          setDataNascimento(estudante.dt_nascimento_aluno);
                           closeCollapse();
                         }}
                       />

@@ -12,10 +12,12 @@ export class ListaAlunos extends Component {
     super(props);
     this.state = {
       codigo_eol: null,
+      data_nascimento: null,
       estudantes: [],
       estudantesSemFiltro: [],
       options: [],
-      openCollapse: true
+      openCollapse: true,
+      status: false
     };
     this.setEstudantes = this.setEstudantes.bind(this);
   }
@@ -29,6 +31,9 @@ export class ListaAlunos extends Component {
           this.setCodigoEol(null);
           this.setEstudantes(response.data);
           this.setState({ openCollapse: false });
+          if (status === "Cadastro Desatualizado") {
+            this.setState({ status: true });
+          }
           if (response.data.length === 0) {
             toastError("Nenhum resultado encontrado");
           }
@@ -57,6 +62,10 @@ export class ListaAlunos extends Component {
     this.setState({ codigo_eol });
   };
 
+  setDataNascimento = data_nascimento => {
+    this.setState({ data_nascimento });
+  };
+
   onSelectStatus = status => {
     const { estudantesSemFiltro } = this.state;
     if (status !== "Situação Cadastral") {
@@ -71,7 +80,14 @@ export class ListaAlunos extends Component {
   };
 
   render() {
-    const { estudantes, options, codigo_eol, openCollapse } = this.state;
+    const {
+      estudantes,
+      options,
+      codigo_eol,
+      openCollapse,
+      status,
+      data_nascimento
+    } = this.state;
     return (
       <div className="card">
         <div className="card-body">
@@ -87,6 +103,7 @@ export class ListaAlunos extends Component {
               <TabelaResultados
                 onSelectStatus={this.onSelectStatus}
                 setCodigoEol={this.setCodigoEol}
+                setDataNascimento={this.setDataNascimento}
                 alterCollapse={this.alterCollapse}
                 closeCollapse={this.closeCollapse}
                 estudantes={estudantes}
@@ -96,7 +113,11 @@ export class ListaAlunos extends Component {
           )}
           {codigo_eol && (
             <div className="pt-3">
-              <FormularioAluno codigoEol={codigo_eol} />
+              <FormularioAluno
+                dataNascimento={data_nascimento}
+                codigoEol={codigo_eol}
+                status={status}
+              />
             </div>
           )}
         </div>
