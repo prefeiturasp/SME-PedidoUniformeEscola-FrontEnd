@@ -105,10 +105,12 @@ export class FormularioAluno extends Component {
           responsavel.tp_pessoa_responsavel.toString().trim()
         );
       }
-      if (responsavel.cpf_eol) {
+      if (responsavel.cpf_eol || responsavel.cd_cpf_responsavel) {
         this.props.change(
           "responsavel.cpf_eol",
-          responsavel.cpf_eol.toString().trim()
+          responsavel.cpf_eol
+            ? responsavel.cpf_eol.toString()
+            : responsavel.cd_cpf_responsavel.toString().trim()
         );
       }
       if (responsavel.cd_cpf_responsavel) {
