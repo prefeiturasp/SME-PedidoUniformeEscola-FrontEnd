@@ -64,7 +64,7 @@ export default class GraficoVagasMatriculasSME extends PureComponent {
           <PieChart>
             <Pie
               data={dados}
-              cx={150}
+              cx={200}
               cy={170}
               isAnimationActive={false}
               label
@@ -85,7 +85,7 @@ export default class GraficoVagasMatriculasSME extends PureComponent {
             </Pie>
             <Pie
               data={dados}
-              cx={150}
+              cx={200}
               cy={170}
               isAnimationActive={false}
               label={renderCustomizedLabel}
