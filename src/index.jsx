@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import * as Sentry from '@sentry/browser';
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // Redux
@@ -20,6 +22,10 @@ import * as serviceWorker from "./serviceWorker";
 
 toast.configure();
 
+if (process.env.IS_DOCKER_ENVIRONMENT === true) {
+  const SENTRY_URL = "SENTRY_URL_REPLACE_ME";
+  Sentry.init({ dsn: SENTRY_URL });
+}
 // see https://github.com/zalmoxisus/redux-devtools-extension
 let devTools = undefined;
 //eslint-disable-next-line

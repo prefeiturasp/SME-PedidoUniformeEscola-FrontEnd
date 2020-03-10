@@ -229,7 +229,12 @@ export class Login extends Component {
               style={BUTTON_STYLE.BLUE}
               texto="Ir para o login"
               className="mt-5"
-              onClick={() => this.setState({ cadastradoComSucesso: false })}
+              onClick={() =>
+                this.setState({
+                  cadastradoComSucesso: false,
+                  exibirCadastro: false
+                })
+              }
             />
           </div>
         </div>

@@ -6,7 +6,14 @@
 set -xe
   : "${API_URL?Precisa de uma variavel de ambiente API_URL}"
 
-sed -i "s,API_URL_REPLACE_ME,$API_URL,g" /usr/share/nginx/html/escola/static/js/main*.js
-sed -i "s,API_URL_REPLACE_ME,$API_URL,g" /usr/share/nginx/html/escola/escola/static/js/main*.js
+set -xe
+  : "${SENTRY_URL?Precisa de uma variavel de ambiente SENTRY_URL}"
+
+
+sed -i "s,API_URL_REPLACE_ME,$API_URL,g" /usr/share/nginx/html/$PUBLIC_URL/static/js/main*.js
+sed -i "s,API_URL_REPLACE_ME,$API_URL,g" /usr/share/nginx/html/$PUBLIC_URL/$PUBLIC_URL/static/js/main*.js
+
+sed -i "s,SENTRY_URL_REPLACE_ME,$SENTRY_URL,g" /usr/share/nginx/html/$PUBLIC_URL/$PUBLIC_URL/static/js/main*.js
+sed -i "s,SENTRY_URL_REPLACE_ME,$SENTRY_URL,g" /usr/share/nginx/html/$PUBLIC_URL/$PUBLIC_URL/static/js/main*.js
 
 exec "$@"
