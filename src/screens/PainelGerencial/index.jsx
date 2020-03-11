@@ -4,6 +4,7 @@ import { getDadosPainelGerencial } from "../../services/painelGerencial.service"
 import GraficoPizza from "../../components/GraficoPizza";
 import "./style.scss";
 import { formatarDados } from "./helper";
+import { perfilEscola } from "../../helpers/utils";
 
 export class PainelGerencial extends Component {
   constructor(props) {
@@ -70,6 +71,7 @@ export class PainelGerencial extends Component {
                       </div>
                       <div
                         onClick={() =>
+                          perfilEscola() &&
                           this.props.history.push(
                             `/lista-alunos?status=Cadastro Atualizado e validado`
                           )
@@ -96,6 +98,7 @@ export class PainelGerencial extends Component {
                     <div className="card-body padding-altered">
                       <div
                         onClick={() =>
+                          perfilEscola() &&
                           this.props.history.push(
                             `/lista-alunos?status=Cadastro Desatualizado`
                           )
@@ -123,6 +126,7 @@ export class PainelGerencial extends Component {
                         <div className="card-body padding-altered">
                           <div
                             onClick={() =>
+                              perfilEscola() &&
                               this.props.history.push(
                                 `/lista-alunos?status=Cadastro com Pendência Resolvida`
                               )
@@ -153,6 +157,7 @@ export class PainelGerencial extends Component {
                         <div className="card-body padding-altered">
                           <div
                             onClick={() =>
+                              perfilEscola() &&
                               this.props.history.push(
                                 `/lista-alunos?status=Cadastro Divergente`
                               )

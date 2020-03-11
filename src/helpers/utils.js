@@ -52,6 +52,14 @@ export const getInstituicao = () => {
   return localStorage.getItem("nome_escola");
 };
 
+export const getPerfil = () => {
+  return localStorage.getItem("perfil");
+};
+
+export const perfilEscola = () => {
+  return localStorage.getItem("perfil") === "perfil_escola";
+};
+
 export const getKey = obj => {
   return Object.keys(obj)[0];
 };
