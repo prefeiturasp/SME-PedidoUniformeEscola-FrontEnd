@@ -1,5 +1,10 @@
 import { validarCPF } from "./utils";
 
+export const caracteresEspeciais = value =>
+  value && !/^[\w&.-]+$/i.test(value)
+    ? `Não permite caracteres especiais`
+    : undefined;
+
 export const required = value =>
   value !== undefined ? undefined : "Campo obrigatório";
 
@@ -17,6 +22,9 @@ export const somenteLetrasEEspacos = value =>
   value && !/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/i.test(value)
     ? `Permitido somente letras e espaços`
     : undefined;
+
+export const somenteNumeros = value =>
+  value && !/^[0-9]+$/i.test(value) ? `Permitido somente número` : undefined;
 
 export const validaCPF = value =>
   value && !validarCPF(value) ? `CPF inválido` : undefined;
