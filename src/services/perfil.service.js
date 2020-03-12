@@ -38,3 +38,22 @@ export const confirmarEmail = (uuid, confirmationKey) => {
       return error.json();
     });
 };
+
+export const recuperaSenha = registro_funcional => {
+  const url = `${API_URL}/cadastro/recuperar-senha/${registro_funcional}/`;
+  let status = 0;
+  return fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+    .then(res => {
+      status = res.status;
+      return res.json();
+    })
+    .then(data => {
+      return { data: data, status: status };
+    })
+    .catch(error => {
+      return console.log(error);
+    });
+};
