@@ -60,7 +60,7 @@ export class TabelaResultados extends Component {
                 return (
                   <tr className="row" key={key}>
                     <td className="col-6">
-                      {estudante.nome || estudante.cd_aluno.toString()}
+                      {estudante.nome || estudante.nm_aluno.toString()}
                     </td>
                     <td className={`col-3 text-center status`}>
                       <span
