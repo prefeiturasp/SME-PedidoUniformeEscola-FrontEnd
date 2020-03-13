@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import "./style.scss";
 
-const COLORS = ["#80d7c9", "#3cc0ab", "#f69084", "#edb971", "#f3e68d"];
+const COLORS = ["#80d7c9", "#3cc0ab", "#edb971", "#f3e68d", "#f69084"];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({

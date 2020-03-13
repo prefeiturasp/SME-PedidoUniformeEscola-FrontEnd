@@ -30,6 +30,7 @@ const login = async (username, password) => {
           localStorage.setItem("name", result.name);
           localStorage.setItem("rf", result.username);
           localStorage.setItem("nome_escola", result.nome_escola);
+          localStorage.setItem("perfil", result.perfil_usuario);
           window.location.href = `/${process.env.PUBLIC_URL}`;
         });
       });
@@ -47,6 +48,7 @@ const logout = () => {
   localStorage.removeItem("name");
   localStorage.removeItem("rf");
   localStorage.removeItem("nome_escola");
+  localStorage.removeItem("perfil");
   window.location.href = process.env.PUBLIC_URL
     ? `/${process.env.PUBLIC_URL}/login`
     : "/login";
