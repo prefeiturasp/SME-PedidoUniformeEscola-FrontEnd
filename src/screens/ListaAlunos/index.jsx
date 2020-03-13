@@ -1,20 +1,47 @@
 import React, { Component } from "react";
+import HTTP_STATUS from "http-status-codes";
 import FiltroAlunos from "./components/FiltroAlunos";
 import TabelaResultados from "./components/TabelaResultado";
 import { getStatusOptions } from "./components/TabelaResultado/helper";
 import { FormularioAluno } from "../FormularioAluno";
+import { getListaAlunos } from "../../services/listaAlunos.service";
+import { toastError } from "../../components/Toast/dialogs";
 
 export class ListaAlunos extends Component {
   constructor(props) {
     super(props);
     this.state = {
       codigo_eol: null,
+      data_nascimento: null,
       estudantes: [],
       estudantesSemFiltro: [],
       options: [],
-      openCollapse: true
+      openCollapse: true,
+      status: false
     };
     this.setEstudantes = this.setEstudantes.bind(this);
+  }
+
+  componentDidMount() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get("status");
+    if (status) {
+      getListaAlunos(`?status=${status}`).then(response => {
+        if (response.status === HTTP_STATUS.OK) {
+          this.setCodigoEol(null);
+          this.setEstudantes(response.data);
+          this.setState({ openCollapse: false });
+          if (status === "Cadastro Desatualizado") {
+            this.setState({ status: true });
+          }
+          if (response.data.length === 0) {
+            toastError("Nenhum resultado encontrado");
+          }
+        } else {
+          toastError(response.data.detail);
+        }
+      });
+    }
   }
 
   setEstudantes = estudantes => {
@@ -27,8 +54,16 @@ export class ListaAlunos extends Component {
     this.setState({ openCollapse: !this.state.openCollapse });
   };
 
+  closeCollapse = () => {
+    this.setState({ openCollapse: false });
+  };
+
   setCodigoEol = codigo_eol => {
     this.setState({ codigo_eol });
+  };
+
+  setDataNascimento = data_nascimento => {
+    this.setState({ data_nascimento });
   };
 
   onSelectStatus = status => {
@@ -45,7 +80,14 @@ export class ListaAlunos extends Component {
   };
 
   render() {
-    const { estudantes, options, codigo_eol, openCollapse } = this.state;
+    const {
+      estudantes,
+      options,
+      codigo_eol,
+      openCollapse,
+      status,
+      data_nascimento
+    } = this.state;
     return (
       <div className="card">
         <div className="card-body">
@@ -61,7 +103,9 @@ export class ListaAlunos extends Component {
               <TabelaResultados
                 onSelectStatus={this.onSelectStatus}
                 setCodigoEol={this.setCodigoEol}
+                setDataNascimento={this.setDataNascimento}
                 alterCollapse={this.alterCollapse}
+                closeCollapse={this.closeCollapse}
                 estudantes={estudantes}
                 options={options}
               />
@@ -69,7 +113,11 @@ export class ListaAlunos extends Component {
           )}
           {codigo_eol && (
             <div className="pt-3">
-              <FormularioAluno codigoEol={codigo_eol} />
+              <FormularioAluno
+                dataNascimento={data_nascimento}
+                codigoEol={codigo_eol}
+                status={status}
+              />
             </div>
           )}
         </div>

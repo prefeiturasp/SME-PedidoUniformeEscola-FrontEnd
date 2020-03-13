@@ -2,7 +2,11 @@ import React, { Component, Fragment } from "react";
 import HTTP_STATUS from "http-status-codes";
 import { connect } from "react-redux";
 import { Field, reduxForm, formValueSelector, FormSection } from "redux-form";
-import { getAluno, updateAluno } from "../../services/cadastroAluno.service";
+import {
+  getAluno,
+  updateAluno,
+  getAlunoEOL
+} from "../../services/cadastroAluno.service";
 import { toastError, toastSuccess } from "../../components/Toast/dialogs";
 import Botao from "../../components/Botao";
 import {
@@ -40,15 +44,29 @@ export class FormularioAluno extends Component {
   }
 
   componentDidMount() {
-    const { codigoEol } = this.props;
-    getAluno(codigoEol).then(response => {
-      if (response.status === HTTP_STATUS.OK) {
-        this.setState({ aluno: response.data });
-        this.loadAlunoHard(response.data);
-      } else {
-        toastError(response.data.detail);
-      }
-    });
+    const { codigoEol, dataNascimento, status } = this.props;
+    if (!status) {
+      getAluno(codigoEol).then(response => {
+        if (response.status === HTTP_STATUS.OK) {
+          this.setState({ aluno: response.data });
+          this.loadAlunoHard(response.data);
+        } else {
+          toastError(response.data.detail);
+        }
+      });
+    } else {
+      getAlunoEOL({
+        codigo_eol: codigoEol,
+        data_nascimento: dataNascimento.slice(0, 10)
+      }).then(response => {
+        if (response.status === HTTP_STATUS.OK) {
+          this.setState({ aluno: response.data.detail });
+          this.loadAlunoHard(response.data.detail);
+        } else {
+          toastError(response.data.detail);
+        }
+      });
+    }
     getPalavrasBloqueadas().then(response => {
       this.setState({ palavrasBloqueadas: response.data });
     });
@@ -84,19 +102,21 @@ export class FormularioAluno extends Component {
       if (responsavel.tp_pessoa_responsavel) {
         this.props.change(
           "responsavel.tp_pessoa_responsavel",
-          responsavel.tp_pessoa_responsavel.trim()
+          responsavel.tp_pessoa_responsavel.toString().trim()
         );
       }
-      if (responsavel.cpf_eol) {
+      if (responsavel.cpf_eol || responsavel.cd_cpf_responsavel) {
         this.props.change(
           "responsavel.cpf_eol",
-          responsavel.cpf_eol.toString().trim()
+          responsavel.cpf_eol
+            ? responsavel.cpf_eol.toString()
+            : responsavel.cd_cpf_responsavel.toString().trim()
         );
       }
       if (responsavel.cd_cpf_responsavel) {
         this.props.change(
           "responsavel.cd_cpf_responsavel",
-          responsavel.cd_cpf_responsavel.trim()
+          responsavel.cd_cpf_responsavel.toString().trim()
         );
       }
       if (responsavel.data_nascimento) {
