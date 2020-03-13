@@ -34,6 +34,8 @@ export class FormularioAluno extends Component {
     super(props);
     this.state = {
       check: false,
+      nao_possui_celular: false,
+      nao_possui_email: false,
       aluno: null,
       vinculoEstudante: null,
       editar: false,
@@ -41,6 +43,23 @@ export class FormularioAluno extends Component {
       sending: false
     };
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onNaoPossuiCelularChecked() {
+    const { nao_possui_celular } = this.state;
+    this.setState({
+      nao_possui_celular: !nao_possui_celular
+    });
+    this.props.change("responsavel.cd_ddd_celular_responsavel", null);
+    this.props.change("responsavel.nr_celular_responsavel", null);
+  }
+
+  onNaoPossuiEmailChecked() {
+    const { nao_possui_email } = this.state;
+    this.setState({
+      nao_possui_email: !nao_possui_email
+    });
+    this.props.change("responsavel.email_responsavel", null);
   }
 
   componentDidMount() {
@@ -75,6 +94,14 @@ export class FormularioAluno extends Component {
   loadAlunoHard = aluno => {
     if (aluno.responsaveis.length) {
       const responsavel = aluno.responsaveis[0];
+      this.setState({
+        nao_possui_celular: responsavel.nao_possui_celular,
+        nao_possui_email: responsavel.nao_possui_email
+      });
+      this.props.change(
+        "responsavel.nm_responsavel",
+        responsavel.nm_responsavel.trim()
+      );
       if (responsavel.nm_responsavel) {
         this.props.change(
           "responsavel.nm_responsavel",
@@ -138,7 +165,7 @@ export class FormularioAluno extends Component {
       toastError(erro);
     } else {
       this.setState({ sending: true });
-      updateAluno(formatarPayload(values, aluno)).then(response => {
+      updateAluno(formatarPayload(values, this.state)).then(response => {
         this.setState({ sending: false });
         if (response.status === HTTP_STATUS.CREATED) {
           toastSuccess("Aluno atualizado com sucesso!");
@@ -151,7 +178,14 @@ export class FormularioAluno extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    const { check, aluno, editar, sending } = this.state;
+    const {
+      check,
+      nao_possui_celular,
+      nao_possui_email,
+      aluno,
+      editar,
+      sending
+    } = this.state;
     return (
       <div className="student-form">
         <div className="card">
@@ -204,15 +238,17 @@ export class FormularioAluno extends Component {
                             label="E-mail do responsável"
                             name="email_responsavel"
                             placeholder={"Digite o e-mail do responsável"}
-                            required
-                            disabled={!editar}
+                            required={!nao_possui_email}
+                            disabled={!editar || nao_possui_email}
                             type="email"
-                            validate={required}
+                            validate={!nao_possui_email && required}
                           />
                         </div>
                         <div className="col-6">
                           <label className="col-form-label label-outside">
-                            <span className="required-asterisk">*</span>
+                            {!nao_possui_celular && (
+                              <span className="required-asterisk">*</span>
+                            )}
                             Telefone celular do responsável
                           </label>
                           <div className="row">
@@ -221,23 +257,81 @@ export class FormularioAluno extends Component {
                                 component={InputText}
                                 name="cd_ddd_celular_responsavel"
                                 placeholder="11"
-                                disabled={!editar}
-                                required
+                                disabled={!editar || nao_possui_celular}
+                                required={!nao_possui_celular}
                                 type="number"
-                                validate={required}
+                                validate={!nao_possui_celular && required}
                               />
                             </div>
                             <div className="col-9">
                               <Field
                                 component={InputText}
                                 name="nr_celular_responsavel"
-                                disabled={!editar}
+                                disabled={!editar || nao_possui_celular}
                                 placeholder={"Digite o celular do responsável"}
-                                required
+                                required={!nao_possui_celular}
                                 type="number"
-                                validate={required}
+                                validate={!nao_possui_celular && required}
                               />
                             </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row pt-3 pb-3">
+                        <div className="col-6">
+                          <Field
+                            component={"input"}
+                            type="hidden"
+                            name="value"
+                          />
+                          <div className="form-check">
+                            <label
+                              htmlFor="nao_possui_email"
+                              className="checkbox-label"
+                            >
+                              <Field
+                                component={"input"}
+                                type="checkbox"
+                                disabled={!editar}
+                                name="nao_possui_email"
+                                checked={nao_possui_email}
+                              />
+                              <span
+                                onClick={() =>
+                                  editar && this.onNaoPossuiEmailChecked()
+                                }
+                                className="checkbox-custom"
+                              />{" "}
+                              <span className="pl-3">Não possui e-mail</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <Field
+                            component={"input"}
+                            type="hidden"
+                            name="value"
+                          />
+                          <div className="form-check">
+                            <label
+                              htmlFor="nao_possui_celular"
+                              className="checkbox-label"
+                            >
+                              <Field
+                                component={"input"}
+                                type="checkbox"
+                                disabled={!editar}
+                                name="nao_possui_celular"
+                                checked={nao_possui_celular}
+                              />
+                              <span
+                                onClick={() => {
+                                  editar && this.onNaoPossuiCelularChecked();
+                                }}
+                                className="checkbox-custom"
+                              />{" "}
+                              <span className="pl-3">Não possui celular</span>
+                            </label>
                           </div>
                         </div>
                       </div>
