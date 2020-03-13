@@ -35,7 +35,9 @@ div.panel-management {
   }
   div.colored {
     &:not(.first-card):not(.second-card) {
-      cursor: pointer;
+      &.cursor {
+        cursor: pointer;
+      }
     }
     color: $blackInput;
     font-weight: bold;

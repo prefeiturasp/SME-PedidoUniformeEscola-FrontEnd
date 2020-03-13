@@ -1,3 +1,5 @@
+import { perfilEscola } from "../../helpers/utils";
+
 export const formatarDados = dados => {
   let dadosFormatados = [];
   dadosFormatados.push({
@@ -9,10 +11,6 @@ export const formatarDados = dados => {
     valor: dados["Cadastros Validados"]["alunos escola"]
   });
   dadosFormatados.push({
-    dado: "Cadastros desatualizados",
-    valor: dados["Cadastros desatualizados"]
-  });
-  dadosFormatados.push({
     dado: "Cadastros divergentes",
     valor: dados["Cadastros divergentes"]
   });
@@ -20,5 +18,10 @@ export const formatarDados = dados => {
     dado: "Cadastros com pendências resolvidas",
     valor: dados["Cadastros com pendências resolvidas"]
   });
+  perfilEscola() &&
+    dadosFormatados.push({
+      dado: "Cadastros desatualizados",
+      valor: dados["Cadastros desatualizados"]
+    });
   return dadosFormatados;
 };
