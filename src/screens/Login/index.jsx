@@ -2,7 +2,11 @@ import HTTP_STATUS from "http-status-codes";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
-import { length, required } from "../../helpers/fieldValidators";
+import {
+  required,
+  somenteNumeros,
+  caracteresEspeciais
+} from "../../helpers/fieldValidators";
 import authService from "../../services/auth.service";
 import { setUsuario } from "../../services/perfil.service";
 import { Botao } from "../../components/Botao";
@@ -22,7 +26,8 @@ export class Login extends Component {
       bloquearBotao: false,
       exibirCadastro: false,
       cadastradoComSucesso: false,
-      width: null
+      width: null,
+      email: null
     };
     this.emailInput = React.createRef();
   }
@@ -70,10 +75,11 @@ export class Login extends Component {
             esconderAsterisco
             label="RF"
             name="username"
-            placeholder={"seu.nome"}
+            placeholder={"Seu RF (somente números)"}
             required
             type="text"
-            validate={[required]}
+            maxlength="7"
+            validate={[required, somenteNumeros]}
           />
           <Field
             component={InputText}
@@ -117,12 +123,15 @@ export class Login extends Component {
                 <div ref={this.emailInput} className="col-6">
                   <Field
                     component={InputText}
-                    placeholder={"seu.nome"}
+                    placeholder={"Inicio do seu e-mail SME"}
                     label="E-mail"
                     name="email"
                     required
                     type="text"
-                    validate={[required]}
+                    validate={[required, caracteresEspeciais]}
+                    onChange={event =>
+                      this.setState({ email: event.target.value })
+                    }
                   />
                 </div>
                 <div className="input-group-append col-6">
@@ -162,7 +171,7 @@ export class Login extends Component {
                   title="somente números"
                   helpText="Somente números"
                   maxlength="7"
-                  validate={[required, length(7)]}
+                  validate={[required, somenteNumeros]}
                 />
               </div>
             </div>
@@ -215,13 +224,14 @@ export class Login extends Component {
   }
 
   renderCadastradoComSucesso = () => {
+    const { email } = this.state;
     return (
       <div className="message-signup-success pt-3 pb-3">
         Dados salvos com sucesso. Para ativar seu usuário no ambiente
         administrativo do Portal do Uniforme, acesse a caixa postal do seu
-        e-mail cadastrado, entre na mensagem intitulada "Confirme seu e-mail -
-        Ambiente administrativo do Portal do Uniforme" e clique no link indicado
-        nela.
+        e-mail cadastrado <span className="font-weight-bold">{email}</span>,
+        entre na mensagem intitulada "Confirme seu e-mail - Ambiente
+        administrativo do Portal do Uniforme" e clique no link indicado nela.
         <div className="row">
           <div className="col-12 text-center">
             <Botao
