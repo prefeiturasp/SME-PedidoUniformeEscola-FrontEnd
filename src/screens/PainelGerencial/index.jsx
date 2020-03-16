@@ -168,6 +168,7 @@ export class PainelGerencial extends Component {
                                     "Cadastros com pendências resolvidas"
                                   ].toString()}
                                 </span>
+                                <br />
                                 <span className="bigger-label">
                                   {dados[
                                     "Cadastros com pendências resolvidas"
@@ -200,6 +201,7 @@ export class PainelGerencial extends Component {
                                 <span className="number">
                                   {dados["Cadastros divergentes"].toString()}
                                 </span>
+                                <br />
                                 <span className="bigger-label">
                                   {dados["Cadastros divergentes"] === 1
                                     ? "aluno"
