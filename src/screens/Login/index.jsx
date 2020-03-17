@@ -12,6 +12,7 @@ import { toastError, toastSuccess } from "../../components/Toast/dialogs";
 import { validarForm } from "./validate";
 import { Cadastro } from "./components/Cadastro";
 import "./style.scss";
+import { SenhaRecuperadaSucesso } from "./components/SenhaRecuperadaSucesso";
 
 export class Login extends Component {
   constructor(props) {
@@ -47,12 +48,12 @@ export class Login extends Component {
     recuperaSenha(values.email_ou_rf).then(resp => {
       if (resp.status === HTTP_STATUS.OK) {
         this.setState({
-          componenteAtivo: this.COMPONENTE.RECUPERACAO_SENHA_OK,
+          componenteAtivo: "senha_recuperada_sucesso",
           email_recuperacao: resp.data.email
         });
       } else {
         this.setState({
-          componenteAtivo: this.COMPONENTE.RECUPERACAO_SENHA_NAO_OK
+          componenteAtivo: "senha_recuperada_erro"
         });
       }
     });
@@ -215,7 +216,12 @@ export class Login extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    const { width, componenteAtivo, bloquearBotao } = this.state;
+    const {
+      width,
+      componenteAtivo,
+      bloquearBotao,
+      email_recuperacao
+    } = this.state;
     return (
       <div>
         <div className="login-bg" />
@@ -246,6 +252,12 @@ export class Login extends Component {
             {componenteAtivo === "cadastrado_com_sucesso" &&
               this.renderCadastradoComSucesso()}
             {componenteAtivo === "esqueci_senha" && this.renderEsqueciSenha()}
+            {componenteAtivo === "senha_recuperada_sucesso" && (
+              <SenhaRecuperadaSucesso
+                email_recuperacao={email_recuperacao}
+                setComponenteAtivo={this.setComponenteAtivo}
+              />
+            )}
             <div className="logo-prefeitura">
               <img
                 src={

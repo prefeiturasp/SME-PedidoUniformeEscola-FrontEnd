@@ -40,7 +40,7 @@ export const confirmarEmail = (uuid, confirmationKey) => {
 };
 
 export const recuperaSenha = registro_funcional => {
-  const url = `${API_URL}/cadastro/recuperar-senha/${registro_funcional}/`;
+  const url = `${API_URL}/usuarios/recuperar-senha/${registro_funcional}/`;
   let status = 0;
   return fetch(url, {
     method: "GET",
