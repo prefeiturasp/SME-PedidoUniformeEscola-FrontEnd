@@ -1,10 +1,10 @@
-import DashboardPage from "../pages/DashboardPage";
+import PainelGerencialPage from "../pages/PainelGerencialPage";
 import ListaAlunosPage from "../pages/ListaAlunosPage";
 
 export const routes = [
   {
     path: "/",
-    component: DashboardPage,
+    component: PainelGerencialPage,
     exact: true
   },
   {

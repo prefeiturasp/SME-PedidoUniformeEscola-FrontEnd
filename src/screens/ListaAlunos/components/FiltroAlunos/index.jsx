@@ -61,6 +61,9 @@ export class FiltroAlunos extends Component {
       return estudante.toLowerCase().includes(event.query.toLowerCase());
     });
     this.setState({ sugestoesEstudantes });
+    if (sugestoesEstudantes.length === 0) {
+      this.setState({ nenhumEstudante: true });
+    }
   }
 
   sugerirNomesResponsaveis(event) {
@@ -70,6 +73,9 @@ export class FiltroAlunos extends Component {
     });
 
     this.setState({ sugestoesNomesResponsaveis });
+    if (sugestoesNomesResponsaveis.length === 0) {
+      this.setState({ nenhumResponsavel: true });
+    }
   }
 
   resetForm() {

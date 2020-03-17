@@ -8,16 +8,28 @@ import {
   BUTTON_TYPE
 } from "../../../../components/Botao/constants";
 import { getColor } from "./helper";
+import { Paginacao } from "../../../../components/Paginacao";
+import { QUANTIDADE_POR_PAGINA } from "../../../../components/Paginacao/constants";
 
 export class TabelaResultados extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pagina: 1,
+      offset: 0
+    };
+  }
+
   render() {
     const {
-      alterCollapse,
+      closeCollapse,
       estudantes,
       setCodigoEol,
       options,
-      onSelectStatus
+      onSelectStatus,
+      setDataNascimento
     } = this.props;
+    const { pagina } = this.state;
     return (
       <div className="table-results">
         <div className="title">
@@ -39,29 +51,47 @@ export class TabelaResultados extends Component {
             </tr>
           </thead>
           <tbody>
-            {estudantes.map((estudante, key) => {
-              return (
-                <tr className="row" key={key}>
-                  <td className="col-6">{estudante.nome}</td>
-                  <td className={`col-3 text-center status`}>
-                    <span className={`${getColor(estudante.status)}`}>
-                      {estudante.status}
-                    </span>
-                  </td>
-                  <td className="col-3 text-center">
-                    <Botao
-                      style={BUTTON_STYLE.BLUE_OUTLINE}
-                      type={BUTTON_TYPE.BUTTON}
-                      texto="Visualizar cadastro"
-                      onClick={() => {
-                        setCodigoEol(estudante.codigo_eol);
-                        alterCollapse();
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {estudantes
+              .slice(
+                QUANTIDADE_POR_PAGINA * (pagina - 1),
+                QUANTIDADE_POR_PAGINA * pagina
+              )
+              .map((estudante, key) => {
+                return (
+                  <tr className="row" key={key}>
+                    <td className="col-6">
+                      {estudante.nome || estudante.nm_aluno.toString()}
+                    </td>
+                    <td className={`col-3 text-center status`}>
+                      <span
+                        className={`${getColor(
+                          estudante.status || "Cadastro Desatualizado"
+                        )}`}
+                      >
+                        {estudante.status || "Cadastro Desatualizado"}
+                      </span>
+                    </td>
+                    <td className="col-3 text-center">
+                      <Botao
+                        style={BUTTON_STYLE.BLUE_OUTLINE}
+                        type={BUTTON_TYPE.BUTTON}
+                        texto="Visualizar cadastro"
+                        onClick={() => {
+                          setCodigoEol(
+                            estudante.codigo_eol || estudante.cd_aluno
+                          );
+                          setDataNascimento(estudante.dt_nascimento_aluno);
+                          closeCollapse();
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            <Paginacao
+              onChange={pagina => this.setState({ pagina })}
+              total={estudantes.length}
+            />
           </tbody>
         </table>
       </div>

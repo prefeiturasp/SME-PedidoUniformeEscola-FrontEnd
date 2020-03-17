@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { getNome, getRF, getInstituicao } from "../../helpers/utils";
+import {
+  getNome,
+  getRF,
+  getInstituicao,
+  perfilEscola
+} from "../../helpers/utils";
 import "./style.scss";
 
 export class Sidebar extends Component {
@@ -52,15 +57,14 @@ export class Sidebar extends Component {
                 <span>Painel Gerencial</span>
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                className={`nav-link collapsed`}
-                to="/lista-alunos"
-              >
-                <i className="fas fa-file-alt" />
-                <span>Consulta à situação individual</span>
-              </NavLink>
-            </li>
+            {perfilEscola() && (
+              <li className="nav-item">
+                <NavLink className={`nav-link collapsed`} to="/lista-alunos">
+                  <i className="fas fa-file-alt" />
+                  <span>Consulta à situação individual</span>
+                </NavLink>
+              </li>
+            )}
           </div>
           {!toggled && (
             <div className="text-center page-footer mt-auto justify-content-center mb-3 pb-2">
