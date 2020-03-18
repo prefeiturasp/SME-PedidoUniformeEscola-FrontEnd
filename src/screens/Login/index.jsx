@@ -13,6 +13,7 @@ import { validarForm } from "./validate";
 import { Cadastro } from "./components/Cadastro";
 import "./style.scss";
 import { SenhaRecuperadaSucesso } from "./components/SenhaRecuperadaSucesso";
+import { SenhaRecuperadaErro } from "./components/SenhaRecuperadaErro";
 
 export class Login extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ export class Login extends Component {
       bloquearBotao: false,
       componenteAtivo: "login",
       width: null,
-      email: null
+      email: null,
+      enviandoEmail: false
     };
     this.emailInput = React.createRef();
   }
@@ -45,15 +47,18 @@ export class Login extends Component {
   };
 
   handleRecuperaSenha = values => {
+    this.setState({ enviandoEmail: true });
     recuperaSenha(values.email_ou_rf).then(resp => {
       if (resp.status === HTTP_STATUS.OK) {
         this.setState({
           componenteAtivo: "senha_recuperada_sucesso",
-          email_recuperacao: resp.data.email
+          email_recuperacao: resp.data.email,
+          enviandoEmail: false
         });
       } else {
         this.setState({
-          componenteAtivo: "senha_recuperada_erro"
+          componenteAtivo: "senha_recuperada_erro",
+          enviandoEmail: false
         });
       }
     });
@@ -167,6 +172,7 @@ export class Login extends Component {
   };
 
   renderEsqueciSenha() {
+    const { enviandoEmail } = this.state;
     const { handleSubmit } = this.props;
     return (
       <div className="form">
@@ -188,24 +194,29 @@ export class Login extends Component {
         </form>
 
         <div className="alinha-direita mt-3 ml-4 mr-4">
-          <Botao
-            className="col-3"
-            style={BUTTON_STYLE.BLUE_OUTLINE}
-            texto="Voltar"
-            onClick={() => this.setState({ componenteAtivo: "login" })}
-            type={BUTTON_TYPE.SUBMIT}
-          />
-          <Botao
-            className="col-3 ml-2"
-            style={BUTTON_STYLE.BLUE_OUTLINE}
-            texto="Cancelar"
-            type={BUTTON_TYPE.SUBMIT}
-            onClick={() => this.setState({ componenteAtivo: "login" })}
-          />
+          {!enviandoEmail && (
+            <Botao
+              className="col-3"
+              style={BUTTON_STYLE.BLUE_OUTLINE}
+              texto="Voltar"
+              onClick={() => this.setState({ componenteAtivo: "login" })}
+              type={BUTTON_TYPE.SUBMIT}
+            />
+          )}
+          {!enviandoEmail && (
+            <Botao
+              className="col-3 ml-2"
+              style={BUTTON_STYLE.BLUE_OUTLINE}
+              texto="Cancelar"
+              type={BUTTON_TYPE.SUBMIT}
+              onClick={() => this.setState({ componenteAtivo: "login" })}
+            />
+          )}
           <Botao
             className="col-3 ml-2"
             style={BUTTON_STYLE.BLUE}
-            texto="Continuar"
+            texto={`${enviandoEmail ? "Aguarde..." : "Continuar"}`}
+            disabled={enviandoEmail}
             type={BUTTON_TYPE.SUBMIT}
             onClick={handleSubmit(values => this.handleRecuperaSenha(values))}
           />
@@ -255,6 +266,11 @@ export class Login extends Component {
             {componenteAtivo === "senha_recuperada_sucesso" && (
               <SenhaRecuperadaSucesso
                 email_recuperacao={email_recuperacao}
+                setComponenteAtivo={this.setComponenteAtivo}
+              />
+            )}
+            {componenteAtivo === "senha_recuperada_erro" && (
+              <SenhaRecuperadaErro
                 setComponenteAtivo={this.setComponenteAtivo}
               />
             )}

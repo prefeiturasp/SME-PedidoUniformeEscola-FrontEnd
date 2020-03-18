@@ -5,6 +5,7 @@ import Login from "../screens/Login";
 import NotFoundPage from "../screens/404";
 import ConfirmarEmail from "../screens/ConfirmarEmail";
 import authService from "../services/auth.service";
+import RecuperarSenha from "../screens/RecuperarSenha";
 
 const PrivateRouter = (
   { component: Component, tipoUsuario: tipoUsuario, ...rest } // eslint-disable-line
@@ -38,6 +39,7 @@ const Routes = () => (
         );
       })}
       <Route path="/confirmar-email" component={ConfirmarEmail} />
+      <Route path="/recuperar-senha" component={RecuperarSenha} />
       <Route path="*" component={NotFoundPage} />
     </Switch>
   </BrowserRouter>
