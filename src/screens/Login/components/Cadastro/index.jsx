@@ -13,16 +13,16 @@ import {
 
 export const Cadastro = props => {
   const {
-    handleSubmitCadastro,
     bloquearBotao,
     setComponenteAtivo,
     emailInput,
-    width
+    width,
+    onSubmit
   } = props;
   return (
     <div className="signup-form">
       <div className="form">
-        <form onSubmit={handleSubmitCadastro}>
+        <form>
           <div className="row">
             <div className="input-group email-sme">
               <div ref={emailInput} className="col-6">
@@ -113,6 +113,7 @@ export const Cadastro = props => {
           <div className="pt-2">
             <Botao
               type={BUTTON_TYPE.SUBMIT}
+              onSubmit={(values) => console.log(values)}
               style={BUTTON_STYLE.BLUE}
               texto="Cadastrar"
               className="col-12"

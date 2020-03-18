@@ -14,6 +14,9 @@ import { Cadastro } from "./components/Cadastro";
 import "./style.scss";
 import { SenhaRecuperadaSucesso } from "./components/SenhaRecuperadaSucesso";
 import { SenhaRecuperadaErro } from "./components/SenhaRecuperadaErro";
+import { MaskCPF } from "../../helpers/utils";
+import { TIPOS_EMAIL_CADASTRO } from "./contants";
+import Select from "../../components/Select";
 
 export class Login extends Component {
   constructor(props) {
@@ -171,6 +174,114 @@ export class Login extends Component {
     );
   };
 
+  renderCadastro() {
+    const { handleSubmit } = this.props;
+    return (
+      <div className="signup-form">
+        <div className="form">
+          <form onSubmit={handleSubmit(this.handleSubmitCadastro)}>
+            <div className="row">
+              <div className="input-group email-sme">
+                <div ref={this.emailInput} className="col-6">
+                  <Field
+                    component={InputText}
+                    placeholder={"seu.nome"}
+                    label="E-mail"
+                    name="email"
+                    required
+                    type="text"
+                    validate={[required]}
+                  />
+                </div>
+                <div className="input-group-append col-6">
+                  <Field
+                    component={Select}
+                    name="tipo_email"
+                    width={this.state.width}
+                    options={TIPOS_EMAIL_CADASTRO}
+                    naoDesabilitarPrimeiraOpcao
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <Field
+                  {...MaskCPF}
+                  component={InputText}
+                  label="CPF"
+                  name="cpf"
+                  placeholder={"Digite o seu CPF"}
+                  required
+                  type="text"
+                  validate={required}
+                />
+              </div>
+              <div className="col-6">
+                <Field
+                  component={InputText}
+                  label="Nº RF"
+                  name="username"
+                  placeholder={"Digite o RF"}
+                  required
+                  type="text"
+                  pattern="\d*"
+                  title="somente números"
+                  helpText="Somente números"
+                  maxlength="7"
+                  validate={[required]}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <Field
+                  component={InputText}
+                  label="Senha"
+                  name="password"
+                  placeholder={"******"}
+                  required
+                  type="password"
+                  validate={required}
+                  pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                  title="Pelo menos 8 caracteres, uma letra e um número"
+                  helpText="Pelo menos 8 caracteres, uma letra e um número"
+                />
+              </div>
+              <div className="col-6">
+                <Field
+                  component={InputText}
+                  label="Confirme sua senha"
+                  name="confirmar_password"
+                  placeholder={"******"}
+                  required
+                  type="password"
+                  validate={required}
+                />
+              </div>
+            </div>
+            <div
+              onClick={() => this.setComponenteAtivo("login")}
+              className="text-right back"
+            >
+              voltar
+            </div>
+            <div className="pt-2">
+              <Botao
+                type={BUTTON_TYPE.SUBMIT}
+                style={BUTTON_STYLE.BLUE}
+                texto="Cadastrar"
+                className="col-12"
+                disabled={this.state.bloquearBotao}
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   renderEsqueciSenha() {
     const { enviandoEmail } = this.state;
     const { handleSubmit } = this.props;
@@ -249,17 +360,7 @@ export class Login extends Component {
               />
             </div>
             {componenteAtivo === "login" && this.renderLogin()}
-            {componenteAtivo === "cadastro" && (
-              <Cadastro
-                setComponenteAtivo={this.setComponenteAtivo}
-                bloquearBotao={bloquearBotao}
-                emailInput={this.emailInput}
-                width={width}
-                onSubmit={values =>
-                  handleSubmit(this.handleSubmitCadastro(values))
-                }
-              />
-            )}
+            {componenteAtivo === "cadastro" && this.renderCadastro()}
             {componenteAtivo === "cadastrado_com_sucesso" &&
               this.renderCadastradoComSucesso()}
             {componenteAtivo === "esqueci_senha" && this.renderEsqueciSenha()}
