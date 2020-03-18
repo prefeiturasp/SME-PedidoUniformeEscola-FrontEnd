@@ -2,32 +2,28 @@ import HTTP_STATUS from "http-status-codes";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
-import {
-  required,
-  somenteNumeros,
-  caracteresEspeciais
-} from "../../helpers/fieldValidators";
+import { required, somenteNumeros } from "../../helpers/fieldValidators";
 import authService from "../../services/auth.service";
-import { setUsuario } from "../../services/perfil.service";
+import { setUsuario, recuperaSenha } from "../../services/perfil.service";
 import { Botao } from "../../components/Botao";
 import { BUTTON_STYLE, BUTTON_TYPE } from "../../components/Botao/constants";
 import { InputText } from "../../components/Input/InputText";
-import Select from "../../components/Select";
 import { toastError, toastSuccess } from "../../components/Toast/dialogs";
-import "./style.scss";
-import { MaskCPF } from "../../helpers/utils";
 import { validarForm } from "./validate";
-import { TIPOS_EMAIL_CADASTRO } from "./contants";
+import { Cadastro } from "./components/Cadastro";
+import "./style.scss";
+import { SenhaRecuperadaSucesso } from "./components/SenhaRecuperadaSucesso";
+import { SenhaRecuperadaErro } from "./components/SenhaRecuperadaErro";
 
 export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       bloquearBotao: false,
-      exibirCadastro: false,
-      cadastradoComSucesso: false,
+      componenteAtivo: "login",
       width: null,
-      email: null
+      email: null,
+      enviandoEmail: false
     };
     this.emailInput = React.createRef();
   }
@@ -46,6 +42,28 @@ export class Login extends Component {
     }
   };
 
+  setComponenteAtivo = componenteAtivo => {
+    this.setState({ componenteAtivo });
+  };
+
+  handleRecuperaSenha = values => {
+    this.setState({ enviandoEmail: true });
+    recuperaSenha(values.email_ou_rf).then(resp => {
+      if (resp.status === HTTP_STATUS.OK) {
+        this.setState({
+          componenteAtivo: "senha_recuperada_sucesso",
+          email_recuperacao: resp.data.email,
+          enviandoEmail: false
+        });
+      } else {
+        this.setState({
+          componenteAtivo: "senha_recuperada_erro",
+          enviandoEmail: false
+        });
+      }
+    });
+  };
+
   handleSubmitCadastro = values => {
     const erro = validarForm(values, this.state);
     if (erro) {
@@ -55,7 +73,7 @@ export class Login extends Component {
       setUsuario(values).then(response => {
         if (response.status === HTTP_STATUS.OK) {
           toastSuccess(`Cadastro efetuado com sucesso!`);
-          this.setState({ bloquearBotao: false, cadastradoComSucesso: true });
+          this.setState({ componenteAtivo: "cadastrado_com_sucesso" });
         } else if (response.status === HTTP_STATUS.BAD_REQUEST) {
           toastError(response.data.detail);
           this.setState({ bloquearBotao: false });
@@ -101,124 +119,26 @@ export class Login extends Component {
           <Link
             className="hyperlink text-center mt-3 d-block"
             data-cy="ainda-nao-cadastrado"
-            onClick={() => this.setState({ exibirCadastro: true })}
+            onClick={() => this.setState({ componenteAtivo: "cadastro" })}
             to="#"
           >
             Primeiro acesso
           </Link>
-        </form>
-      </div>
-    );
-  }
-
-  renderCadastro() {
-    const { handleSubmit } = this.props;
-    const { bloquearBotao } = this.state;
-    return (
-      <div className="signup-form">
-        <div className="form">
-          <form onSubmit={handleSubmit(this.handleSubmitCadastro)}>
-            <div className="row">
-              <div className="input-group email-sme">
-                <div ref={this.emailInput} className="col-6">
-                  <Field
-                    component={InputText}
-                    placeholder={"Inicio do seu e-mail SME"}
-                    label="E-mail"
-                    name="email"
-                    required
-                    type="text"
-                    validate={[required, caracteresEspeciais]}
-                    onChange={event =>
-                      this.setState({ email: event.target.value })
-                    }
-                  />
-                </div>
-                <div className="input-group-append col-6">
-                  <Field
-                    component={Select}
-                    name="tipo_email"
-                    options={TIPOS_EMAIL_CADASTRO}
-                    naoDesabilitarPrimeiraOpcao
-                    width={this.state.width}
-                    disabled
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <Field
-                  {...MaskCPF}
-                  component={InputText}
-                  label="CPF"
-                  name="cpf"
-                  placeholder={"Digite o seu CPF"}
-                  required
-                  type="text"
-                  validate={required}
-                />
-              </div>
-              <div className="col-6">
-                <Field
-                  component={InputText}
-                  label="Nº RF"
-                  name="username"
-                  placeholder={"Digite o RF"}
-                  required
-                  type="text"
-                  pattern="\d*"
-                  title="somente números"
-                  helpText="Somente números"
-                  maxlength="7"
-                  validate={[required, somenteNumeros]}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <Field
-                  component={InputText}
-                  label="Senha"
-                  name="password"
-                  placeholder={"******"}
-                  required
-                  type="password"
-                  validate={required}
-                  pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-                  title="Pelo menos 8 caracteres, uma letra e um número"
-                  helpText="Pelo menos 8 caracteres, uma letra e um número"
-                />
-              </div>
-              <div className="col-6">
-                <Field
-                  component={InputText}
-                  label="Confirme sua senha"
-                  name="confirmar_password"
-                  placeholder={"******"}
-                  required
-                  type="password"
-                  validate={required}
-                />
-              </div>
-            </div>
-            <div
-              onClick={() => this.setState({ exibirCadastro: false })}
-              className="text-right back"
+          <p className="mt-2 text-center">
+            <Link
+              className="hyperlink"
+              to="#"
+              data-cy="esqueci-senha"
+              onClick={() =>
+                this.setState({
+                  componenteAtivo: "esqueci_senha"
+                })
+              }
             >
-              voltar
-            </div>
-            <div className="pt-2">
-              <Botao
-                type={BUTTON_TYPE.SUBMIT}
-                style={BUTTON_STYLE.BLUE}
-                texto="Cadastrar"
-                className="col-12"
-                disabled={bloquearBotao}
-              />
-            </div>
-          </form>
-        </div>
+              Esqueci minha senha
+            </Link>
+          </p>
+        </form>
       </div>
     );
   }
@@ -241,8 +161,7 @@ export class Login extends Component {
               className="mt-5"
               onClick={() =>
                 this.setState({
-                  cadastradoComSucesso: false,
-                  exibirCadastro: false
+                  componenteAtivo: "login"
                 })
               }
             />
@@ -252,8 +171,68 @@ export class Login extends Component {
     );
   };
 
+  renderEsqueciSenha() {
+    const { enviandoEmail } = this.state;
+    const { handleSubmit } = this.props;
+    return (
+      <div className="form">
+        <h3 className="texto-simples-grande mt-3">Recuperação de Senha</h3>
+        <p className="texto-simples mt-4">
+          Informe seu RF e ao continuar você receberá um e-mail com as
+          orientações para redefinição da sua senha.
+        </p>
+        <form className="login ml-4 mr-4">
+          <Field
+            component={InputText}
+            esconderAsterisco
+            label="RF"
+            name="email_ou_rf"
+            placeholder={"RF"}
+            validate={required}
+            helpText="7 caracteres. Somente números."
+          />
+        </form>
+
+        <div className="alinha-direita mt-3 ml-4 mr-4">
+          {!enviandoEmail && (
+            <Botao
+              className="col-3"
+              style={BUTTON_STYLE.BLUE_OUTLINE}
+              texto="Voltar"
+              onClick={() => this.setState({ componenteAtivo: "login" })}
+              type={BUTTON_TYPE.SUBMIT}
+            />
+          )}
+          {!enviandoEmail && (
+            <Botao
+              className="col-3 ml-2"
+              style={BUTTON_STYLE.BLUE_OUTLINE}
+              texto="Cancelar"
+              type={BUTTON_TYPE.SUBMIT}
+              onClick={() => this.setState({ componenteAtivo: "login" })}
+            />
+          )}
+          <Botao
+            className="col-3 ml-2"
+            style={BUTTON_STYLE.BLUE}
+            texto={`${enviandoEmail ? "Aguarde..." : "Continuar"}`}
+            disabled={enviandoEmail}
+            type={BUTTON_TYPE.SUBMIT}
+            onClick={handleSubmit(values => this.handleRecuperaSenha(values))}
+          />
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { cadastradoComSucesso, exibirCadastro } = this.state;
+    const { handleSubmit } = this.props;
+    const {
+      width,
+      componenteAtivo,
+      bloquearBotao,
+      email_recuperacao
+    } = this.state;
     return (
       <div>
         <div className="login-bg" />
@@ -269,11 +248,32 @@ export class Login extends Component {
                 alt=""
               />
             </div>
-            {cadastradoComSucesso
-              ? this.renderCadastradoComSucesso()
-              : exibirCadastro
-              ? this.renderCadastro()
-              : this.renderLogin()}
+            {componenteAtivo === "login" && this.renderLogin()}
+            {componenteAtivo === "cadastro" && (
+              <Cadastro
+                setComponenteAtivo={this.setComponenteAtivo}
+                bloquearBotao={bloquearBotao}
+                emailInput={this.emailInput}
+                width={width}
+                onSubmit={values =>
+                  handleSubmit(this.handleSubmitCadastro(values))
+                }
+              />
+            )}
+            {componenteAtivo === "cadastrado_com_sucesso" &&
+              this.renderCadastradoComSucesso()}
+            {componenteAtivo === "esqueci_senha" && this.renderEsqueciSenha()}
+            {componenteAtivo === "senha_recuperada_sucesso" && (
+              <SenhaRecuperadaSucesso
+                email_recuperacao={email_recuperacao}
+                setComponenteAtivo={this.setComponenteAtivo}
+              />
+            )}
+            {componenteAtivo === "senha_recuperada_erro" && (
+              <SenhaRecuperadaErro
+                setComponenteAtivo={this.setComponenteAtivo}
+              />
+            )}
             <div className="logo-prefeitura">
               <img
                 src={
