@@ -1,0 +1,95 @@
+@import "../../style/variables.scss";
+
+div.panel-management {
+  div.card {
+    &.graph {
+      div.title {
+        i {
+          padding-right: 10px;
+        }
+        color: $blackInput;
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+  }
+  div.card-body {
+    &.padding-altered {
+      padding-top: 0px !important;
+      padding-left: 1em !important;
+      padding-bottom: 1em !important;
+      padding-right: 1em !important;
+    }
+  }
+  hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  div.card-title {
+    color: $blackTitle;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 1em;
+    padding-top: 1em;
+    margin-bottom: 0;
+  }
+  div.colored {
+    &:not(.first-card):not(.second-card) {
+      &.cursor {
+        cursor: pointer;
+      }
+    }
+    color: $blackInput;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 4px;
+    padding: 1.5em;
+    .number {
+      font-size: 34px;
+    }
+    .bigger-label {
+      font-size: 14px;
+    }
+    .smaller-label {
+      font-size: 10px;
+    }
+    &.first-card {
+      background-color: $bluePool;
+    }
+    &.second-card {
+      background-color: $greenWater;
+    }
+    &.third-card {
+      padding: 1em;
+      background-color: $blueLight;
+      .number {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+      }
+    }
+    &.fourth-card {
+      padding: 1em;
+      background-color: $redLight;
+      .number {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+      }
+    }
+    &.fifth-card {
+      padding: 1em;
+      background-color: $yellowMustard;
+      .number {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+      }
+    }
+    &.sixth-card {
+      padding: 1em;
+      background-color: $orangeLight;
+      .number {
+        padding-right: 0.2em;
+        padding-left: 0.2em;
+      }
+    }
+  }
+}

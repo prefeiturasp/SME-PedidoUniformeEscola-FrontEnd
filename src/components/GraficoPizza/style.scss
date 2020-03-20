@@ -1,0 +1,23 @@
+div.recharts-legend-wrapper {
+  ul.recharts-default-legend {
+    li.recharts-legend-item {
+      padding-bottom: 0.5em;
+      span {
+        font-size: 12px;
+        font-weight: bold;
+        color: #000;
+        padding-bottom: 0.5em;
+        padding-left: 1em;
+      }
+    }
+  }
+}
+
+.legend-style {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+text.recharts-pie-label-text {
+  fill: #4f4f4f;
+}

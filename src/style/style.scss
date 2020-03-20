@@ -1,0 +1,625 @@
+@import "../style/variables.scss";
+
+.font-10 {
+  font-size: 10px;
+}
+
+label {
+  margin-bottom: 0 !important;
+}
+
+input::placeholder:not(.input-search) {
+  color: $placeholder !important;
+  text-align: left;
+  font-size: 12px;
+}
+
+input::placeholder {
+  text-align: left;
+}
+
+textarea {
+  min-height: 121px;
+}
+
+.card-body {
+  padding: 2rem !important;
+}
+
+.dashboard-card-title {
+  input.input-search {
+    font-size: 14px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 0.5px solid $grayLight;
+    color: $grayLight;
+    text-align: right !important;
+    font-style: italic;
+    &::placeholder {
+      text-align: right;
+      color: $grayLight;
+      padding-right: 5px;
+    }
+  }
+  .color-black {
+    color: $blackInput;
+  }
+  i.fa-search {
+    font-size: 20px;
+  }
+}
+
+.modal-content {
+  .modal-body {
+    font-size: 14px;
+  }
+}
+
+.checkbox-label {
+  color: $gray;
+  font-size: 14px;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    &:checked {
+      ~ .checkbox-custom {
+        background-color: $blueCheckAndRadio;
+        border-radius: 5px;
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+        border: 1px solid $blueCheckAndRadio;
+        &:after {
+          transform: rotate(45deg) scale(1);
+          opacity: 1;
+          left: 7px;
+          top: 2px;
+          width: 6px;
+          height: 12px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          background-color: transparent;
+          border-radius: 0;
+        }
+      }
+    }
+  }
+  .checkbox-custom {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 3px;
+    border: 1px solid $gray;
+    cursor: pointer;
+    &:after {
+      position: absolute;
+      content: "";
+      left: 12px;
+      top: 12px;
+      height: 0px;
+      width: 0px;
+      border-radius: 5px;
+      border: solid $blueCheckAndRadio;
+      border-width: 0 3px 3px 0;
+      transform: rotate(0deg) scale(0);
+      opacity: 1;
+    }
+    &.radio {
+      border-radius: 15px;
+    }
+  }
+}
+
+.input-search-full-width {
+  display: inline-flex;
+  width: 100%;
+  input {
+    margin-right: -30px;
+  }
+}
+
+.dashboard-card-title {
+  color: $blue;
+  i {
+    color: #334d6e;
+    padding-right: 15px;
+    &:nth-child(2) {
+      padding-left: 15px;
+      color: #c2cfe0;
+    }
+  }
+  span {
+    &:nth-child(2) {
+      i {
+        color: #686868;
+      }
+    }
+  }
+}
+
+.current-date {
+  font-size: 10px;
+  color: $grayPlaceholder;
+}
+
+p.caption {
+  font-size: 10px;
+  color: #353535;
+  padding-top: 15px;
+}
+
+div.caption-choices {
+  font-size: 10px;
+  color: #4c5862;
+  display: inline-flex;
+  i {
+    padding: 0 5px;
+  }
+  span {
+    padding-right: 30px;
+    &:nth-child(1) {
+      i {
+        color: $greenPanel;
+      }
+    }
+    &:nth-child(2) {
+      i {
+        color: $orange;
+      }
+    }
+    &:nth-child(3) {
+      i {
+        color: $red;
+      }
+    }
+    &:nth-child(4) {
+      i {
+        color: $black;
+      }
+    }
+  }
+}
+
+.col-form-label {
+  color: $gray !important;
+}
+
+.badge-sme {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 75%;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  .id-of-solicitation {
+    font-weight: bold;
+    font-size: 34px;
+    line-height: 40px;
+    text-align: center;
+    color: #353535;
+  }
+  .id-of-solicitation-dre {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color: #353535;
+  }
+  .number-of-order-label {
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    color: #353535;
+  }
+}
+
+.category {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: normal;
+  color: #353535;
+  padding: 20px;
+}
+
+.report-div-beside-order {
+  position: absolute !important;
+  left: 230px;
+  top: 82px;
+}
+
+.requester {
+  font-size: 14px;
+  color: #686868;
+}
+
+.dre-name {
+  font-weight: bold;
+  font-size: 15px;
+  color: #353535;
+}
+
+.report-label-value {
+  margin-top: 20px;
+  font-size: 14px;
+  color: $gray;
+  .value {
+    font-weight: bold;
+    color: $blackInput;
+  }
+  .value-important {
+    font-weight: bold;
+    font-size: 15px;
+    color: $blackInput;
+  }
+}
+
+.report-students-div {
+  display: grid;
+  font-size: 12px;
+}
+
+//modal
+.modal-90w {
+  max-width: 90% !important;
+}
+
+.modal-50w {
+  max-width: 50% !important;
+}
+
+.c-pointer {
+  cursor: pointer;
+}
+
+.btn-styled {
+  font-weight: bold !important;
+  font-size: 14px !important;
+  &.set-size-properties {
+    min-height: 40px;
+    min-width: 160px;
+  }
+  &.no-border {
+    border: none;
+  }
+  &.btn-primary {
+    background-color: $blue;
+    &:hover {
+      background-color: $blue;
+    }
+  }
+  &.btn-outline-primary {
+    color: $blue;
+    &:hover {
+      background-color: white;
+      color: $blue;
+    }
+  }
+  &.btn-success {
+    border-color: $green;
+    background-color: $green;
+    &:hover {
+      border-color: $green;
+      background-color: $green;
+    }
+  }
+  &.btn-outline-success {
+    color: $green;
+    border-color: $green;
+    &:hover {
+      border-color: $green;
+      background-color: white;
+      color: $green;
+    }
+  }
+}
+
+.icon-draft-card {
+  span {
+    i {
+      color: $green;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+  }
+}
+
+.draft {
+  font-size: 14px;
+}
+
+// ----------- Libraries ---------------
+
+// @khanacademy/react-multi-select
+.multiselect-wrapper-disabled .dropdown-heading {
+  pointer-events: none;
+  background-color: $grayDisabled !important;
+}
+
+.dropdown .dropdown-heading .dropdown-heading-value span {
+  color: $blackInput !important;
+  font-size: 14px;
+}
+
+.dropdown-content
+  .select-panel
+  .select-list
+  label:not([aria-selected="true"]).select-item {
+  color: $blackInput !important;
+  font-size: 14px;
+}
+
+.dropdown-content .select-panel .select-item:not([aria-selected="true"]) {
+  color: $blackInput !important;
+  font-size: 14px;
+}
+
+// react-burgers
+.BurgerBox {
+  width: 18px !important;
+  line-height: 3px;
+  .BurgerInner {
+    height: 3px;
+    &:before {
+      top: -7px;
+      height: 3px;
+    }
+    &:after {
+      bottom: -7px;
+      height: 3px;
+    }
+  }
+}
+
+.table-historic {
+  th {
+    font-weight: normal;
+    font-size: 14px;
+    color: $gray;
+  }
+  td {
+    font-weight: bold;
+    font-size: 14px;
+    color: $blackInput;
+    border-bottom: 1px solid #c0c0c0;
+    padding: 10px 0;
+  }
+}
+.label {
+  font-size: 14px;
+  line-height: 16px;
+  &--red {
+    @extend .label;
+    color: $redAlert;
+  }
+  &--gray {
+    @extend .label;
+    color: $gray;
+  }
+}
+
+.margin-fix {
+  p {
+    margin: 0 0 0.2em 0 !important;
+  }
+  b {
+    margin: 0 0 0.2em 0 !important;
+  }
+}
+
+.card-pendency-approval {
+  padding: 16px 44px;
+  border: 1px solid #dadada;
+  box-sizing: border-box;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  .card-title {
+    font-weight: bold;
+    font-size: 18px;
+    &.priority {
+      color: $red;
+    }
+    &.on-limit {
+      color: $orange;
+    }
+    &.regular {
+      color: $greenPanel;
+    }
+  }
+  .order-box {
+    display: grid;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border: 0.5px solid #e8e8e8;
+    box-sizing: border-box;
+    border-radius: 4px;
+    &.priority {
+      background: $red;
+    }
+    &.on-limit {
+      background: $orange;
+    }
+    &.regular {
+      background: $greenPanel;
+    }
+    span {
+      font-weight: bold;
+      font-size: 34px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .order {
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+  }
+  .order-lines {
+    .text {
+      font-size: 14px;
+      color: $blackInput;
+    }
+  }
+}
+
+.orders-table {
+  width: 100%;
+  th {
+    font-weight: normal;
+    font-size: 14px;
+    color: #686868;
+  }
+  td {
+    font-weight: bold;
+    font-size: 15px;
+    color: #353535;
+    border-bottom: 1px solid #c0c0c0;
+    padding: 10px 0;
+  }
+  tr {
+    th:nth-child(1),
+    td:nth-child(1),
+    th:nth-child(2),
+    td:nth-child(2) {
+      padding-left: 10px;
+      width: 20%;
+    }
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 39%;
+    }
+    th:nth-child(4) {
+      padding-left: 90px;
+    }
+    td:nth-child(4) {
+      padding-left: 110px;
+      padding-right: 0px;
+    }
+  }
+  thead,
+  tbody {
+    display: block;
+  }
+  tbody {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
+
+.fa-search {
+  &.inside-input {
+    z-index: 1;
+    padding-top: 12px;
+    color: #2881bb;
+    font-size: 20px;
+    position: relative;
+  }
+}
+
+table.table-report {
+  width: 100%;
+  font-size: 14px;
+  tr {
+    border-bottom: 1px solid $blackSubtle;
+    &:first-child {
+      color: white;
+      background-color: $blackSubtle;
+    }
+    &:last-child {
+      border-bottom: 2px solid $blackSubtle;
+    }
+    th,
+    td {
+      padding: 15px 30px;
+    }
+    td {
+      color: $blackInput;
+    }
+  }
+}
+
+table.table-reasons {
+  width: 100%;
+  tr {
+    padding: 5px 0;
+    color: $gray;
+    font-size: 14px;
+    &:nth-child(even):not(:last-child) {
+      border-bottom: 1px solid #c0c0c0;
+    }
+    th {
+      font-weight: normal;
+      &:not(:first-child) {
+        padding-left: 40px;
+      }
+    }
+    td {
+      font-weight: bold;
+      color: $blackInput;
+      &:not(:first-child) {
+        padding-left: 40px;
+      }
+    }
+  }
+}
+
+.container-radio {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    &:checked ~ .checkmark {
+      background-color: $blueCheckAndRadio;
+    }
+    &:checked ~ .checkmark:after {
+      display: block;
+    }
+  }
+  &:hover {
+    input:not(:checked) ~ .checkmark {
+      background-color: $grayInputBackground;
+    }
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: $white;
+    border: 1px solid $grayPlaceholder;
+    border-radius: 50%;
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      top: 5px;
+      left: 5px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+  }
+}

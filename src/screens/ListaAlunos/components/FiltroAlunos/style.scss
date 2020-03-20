@@ -1,0 +1,67 @@
+@import "../../../../style/variables.scss";
+
+.list-filter {
+  .ReactCollapse--collapse {
+    border-left: 1px solid $grayDisabled;
+    border-right: 1px solid $grayDisabled;
+    border-bottom: 1px solid $grayDisabled;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 15px;
+  }
+  .top-collapse {
+    border: 1px solid $grayDisabled;
+    border-radius: 4px;
+    border-left: 8px solid $blue;
+    color: $blackInput;
+    font-size: 16px;
+    padding: 0 15px;
+  }
+  div.div-autocomplete {
+    label {
+      font-size: 14px;
+    }
+    span.p-autocomplete {
+      input {
+        display: block;
+        width: 100%;
+        height: 38px;
+        padding: 0.375rem 0.75rem;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #6e707e;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #d1d3e2;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        &:disabled {
+          background-color: $grayDisabled;
+        }
+      }
+    }
+    &.with-results {
+      div.p-autocomplete-panel {
+        border: 1px solid $grayDisabled;
+        ul {
+          padding-left: 0;
+          margin-bottom: 0;
+          li {
+            padding-left: 10px;
+            padding-top: 1em;
+            padding-bottom: 1em;
+            list-style: none;
+            font-size: 14px;
+            color: $blackInput;
+            border-bottom: 1px solid $grayDisabled;
+            &:hover {
+              background-color: $blueSelected;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
