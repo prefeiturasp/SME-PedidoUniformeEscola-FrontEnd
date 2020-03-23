@@ -106,7 +106,12 @@ export class ListaAlunos extends Component {
                 setDataNascimento={this.setDataNascimento}
                 alterCollapse={this.alterCollapse}
                 closeCollapse={this.closeCollapse}
-                estudantes={estudantes}
+                estudantes={estudantes.sort((a, b) => {
+                  let param = a.nome ? "nome" : "nm_aluno";
+                  if (a[param] < b[param]) return -1;
+                  else if (a[param] > b[param]) return 1;
+                  return 0;
+                })}
                 options={options}
               />
             </div>
