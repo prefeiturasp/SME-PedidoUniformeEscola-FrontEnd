@@ -6,9 +6,13 @@ Um sistema da Secretaria de Educação da Cidade de São Paulo.
 
 License: MIT
 
-Versão: 1.0.0
+Versão: 1.1.0
 
 ## Release Notes ##
+
+### 1.1.0 - 25/03/2020
+* Painel Gerencial para o Perfil Escola
+* Consulta aos alunos desatualizados pela Escola
 
 ### 1.0.0 - 20/03/2020
 * Cadastro, Login e Reset de Senha do Sistema para os servidores municipais
