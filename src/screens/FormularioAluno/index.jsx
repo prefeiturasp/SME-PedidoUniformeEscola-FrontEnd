@@ -197,7 +197,7 @@ export class FormularioAluno extends Component {
                 <form formKey={2} onSubmit={handleSubmit(this.onSubmit)}>
                   <div className="row pb-3">
                     <div className="col-6">
-                      <div className="card-title">{aluno.nome}</div>
+                      <div className="card-title">{aluno.nome || aluno.nm_aluno}</div>
                     </div>
                   </div>
                   <div className="row">

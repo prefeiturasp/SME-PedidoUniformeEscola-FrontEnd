@@ -41,11 +41,12 @@ export class TabelaResultados extends Component {
             <tr className="row">
               <th className="col-6">Nome do estudante</th>
               <th className="col-3 text-center">
-                <Select
+                {/*<Select
                   onChange={event => onSelectStatus(event.target.value)}
                   options={options}
                   naoDesabilitarPrimeiraOpcao
-                />
+                />*/}
+                Situação Cadastral
               </th>
               <th className="col-3" />
             </tr>

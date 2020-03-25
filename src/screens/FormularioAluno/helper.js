@@ -7,7 +7,5 @@ export const formatarPayload = (values, state) => {
   values.responsaveis.push(values.responsavel);
   values.atualizado_na_escola = true;
   values.codigo_eol = state.aluno.codigo_eol || state.aluno.cd_aluno.toString();
-  values.data_nascimento =
-    state.aluno.data_nascimento || state.aluno.dt_nascimento_aluno.slice(0, 10);
   return values;
 };
