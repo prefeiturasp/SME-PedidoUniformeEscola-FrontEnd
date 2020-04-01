@@ -2,7 +2,7 @@ import decode from "jwt-decode";
 import CONFIG from "../config";
 import { toastError } from "../components/Toast/dialogs";
 
-export const TOKEN_ALIAS = "TOKEN_LOGGED2";
+export const TOKEN_ALIAS = "TOKEN_LOGGED3";
 
 const login = async (username, password) => {
   try {
