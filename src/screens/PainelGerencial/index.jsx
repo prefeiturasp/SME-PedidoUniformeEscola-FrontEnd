@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import HTTP_STATUS from "http-status-codes";
 import { withRouter } from "react-router-dom";
 import { getDadosPainelGerencial } from "../../services/painelGerencial.service";
 import GraficoPizza from "../../components/GraficoPizza";
@@ -10,26 +11,31 @@ export class PainelGerencial extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dados: null
+      dados: null,
+      responseError: false
     };
   }
 
   componentDidMount() {
     getDadosPainelGerencial().then(response => {
-      this.setState({ dados: response.data.results });
+      if (response.status === HTTP_STATUS.OK) {
+        this.setState({ dados: response.data.results });
+      } else {
+        this.setState({ responseError: true });
+      }
     });
   }
 
   render() {
-    const { dados } = this.state;
+    const { dados, responseError } = this.state;
     return (
       <div className="panel-management">
         <Fragment>
           <div className="card">
             <div className="card-body">
-              {!dados ? (
-                <div>Carregando... </div>
-              ) : (
+              {!dados && !responseError && <div>Carregando... </div>}
+              {responseError && <div>Erro ao carregar painel gerencial.</div>}
+              {dados && (
                 <div className="row">
                   <div className="col-6">
                     <div className="card">
@@ -210,11 +216,12 @@ export class PainelGerencial extends Component {
           </div>
           <div className="card graph mt-3">
             <div className="card-body">
-              {!dados ? (
-                <div>Carregando...</div>
-              ) : dados["total alunos"] === 0 ? (
+              {!dados && !responseError && <div>Carregando...</div>}
+              {dados && dados["total alunos"] === 0 && (
                 <div>Nenhum dado disponível para o gráfico.</div>
-              ) : (
+              )}
+              {responseError && <div>Erro ao carregar gráficos.</div>}
+              {dados && dados["total alunos"] > 0 && (
                 <Fragment>
                   <div className="title">
                     <i className="fas fa-chart-pie" />
