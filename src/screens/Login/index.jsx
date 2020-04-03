@@ -90,11 +90,7 @@ export class Login extends Component {
     const { bloquearBotao } = this.state;
     return (
       <div className="form">
-        <h6>
-          Cara(o) educador(a), nosso sistema se encontra em atualização com retorno
-          previsto para o fim do dia de hoje após as 18hrs.
-        </h6>
-        {/*<form className="login" onSubmit={handleSubmit(this.handleSubmit)}>
+        <form className="login" onSubmit={handleSubmit(this.handleSubmit)}>
           <Field
             component={InputText}
             esconderAsterisco
@@ -145,7 +141,7 @@ export class Login extends Component {
               Esqueci minha senha
             </Link>
           </p>
-            </form>*/}
+        </form>
       </div>
     );
   }
