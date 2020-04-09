@@ -28,6 +28,16 @@ export class PainelGerencial extends Component {
     });
   }
 
+  updateDadosPainelGerencial = cod_eol_escola => {
+    getDadosPainelGerencial(cod_eol_escola).then((response) => {
+      if (response.status === HTTP_STATUS.OK) {
+        this.setState({ dados: response.data.results });
+      } else {
+        this.setState({ responseError: true });
+      }
+    });
+  };
+
   alterCollapse = () => {
     this.setState({ openCollapse: !this.state.openCollapse });
   };
@@ -46,6 +56,7 @@ export class PainelGerencial extends Component {
               <FiltroEscolas
                 openCollapse={openCollapse}
                 alterCollapse={this.alterCollapse}
+                updateDadosPainelGerencial={this.updateDadosPainelGerencial}
               />
               {!dados && !responseError && <div>Carregando... </div>}
               {responseError && <div>Erro ao carregar painel gerencial.</div>}
