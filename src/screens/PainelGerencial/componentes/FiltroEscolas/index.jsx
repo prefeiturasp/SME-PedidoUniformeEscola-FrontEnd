@@ -12,7 +12,6 @@ import {
 } from "../../../../components/Botao/constants";
 import {
   perfilSME,
-  perfilEscola,
   perfilDRE,
   getInstituicao,
 } from "../../../../helpers/utils";
@@ -46,8 +45,8 @@ export class FiltroEscolas extends Component {
   render() {
     const { handleSubmit, openCollapse, alterCollapse } = this.props;
     return (
-      <div className={`list-filter ${!perfilEscola() ? "mb-5" : undefined}`}>
-        {!perfilEscola() && (
+      <div className={`list-filter ${perfilDRE() ? "mb-5" : undefined}`}>
+        {perfilDRE() && (
           <div className="top-collapse pt-2 pb-2">
             <label>Buscar por {perfilSME() && "DRE's ou "}Escolas</label>
             <ToggleExpandir

@@ -7,6 +7,7 @@ import "./style.scss";
 import { formatarDados } from "./helper";
 import { perfilEscola } from "../../helpers/utils";
 import { FiltroEscolas } from "./componentes/FiltroEscolas";
+import { toastError } from "../../components/Toast/dialogs";
 
 export class PainelGerencial extends Component {
   constructor(props) {
@@ -32,6 +33,9 @@ export class PainelGerencial extends Component {
     getDadosPainelGerencial(cod_eol_escola).then((response) => {
       if (response.status === HTTP_STATUS.OK) {
         this.setState({ dados: response.data.results });
+        if (response.data.results["total alunos"] === 0) {
+          toastError("Sem dados disponíveis")
+        }
       } else {
         this.setState({ responseError: true });
       }
