@@ -60,6 +60,15 @@ export const perfilEscola = () => {
   return localStorage.getItem("perfil") === "perfil_escola";
 };
 
+export const perfilDRE = () => {
+  return localStorage.getItem("perfil") === "perfil_dre";
+};
+
+export const perfilSME = () => {
+  return localStorage.getItem("perfil") === "perfil_sme";
+};
+
+
 export const getKey = obj => {
   return Object.keys(obj)[0];
 };
