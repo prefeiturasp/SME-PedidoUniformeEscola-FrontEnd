@@ -1,15 +1,30 @@
 import React, { Component } from "react";
+import { version } from "../../../package.json";
 import { NavLink } from "react-router-dom";
 import {
   getNome,
   getRF,
   getInstituicao,
-  perfilEscola
+  perfilEscola,
 } from "../../helpers/utils";
 import "./style.scss";
+import { getAPIVersion } from "../../services/api.service";
 
 export class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      API_VERSION: null,
+    };
+  }
+
+  async componentDidMount() {
+    const response = await getAPIVersion();
+    this.setState({ API_VERSION: response.data.API_Version });
+  }
+
   render() {
+    const { API_VERSION } = this.state;
     const { toggle, toggled } = this.props;
     return (
       <div>
@@ -65,6 +80,13 @@ export class Sidebar extends Component {
                 </NavLink>
               </li>
             )}
+          </div>
+          <div className="sidebar-wrapper">
+            <div className="text-center mx-auto justify-content-center p-2">
+              <span className="text-bold text-white small">
+                {version} (API: {API_VERSION})
+              </span>
+            </div>
           </div>
           {!toggled && (
             <div className="text-center page-footer mt-auto justify-content-center mb-3 pb-2">
