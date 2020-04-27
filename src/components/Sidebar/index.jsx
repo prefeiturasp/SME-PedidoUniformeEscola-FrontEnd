@@ -81,18 +81,18 @@ export class Sidebar extends Component {
               </li>
             )}
           </div>
-          <div className="sidebar-wrapper">
-            <div className="text-center mx-auto justify-content-center p-2">
-              <span className="text-bold text-white small">
-                {version} (API: {API_VERSION})
-              </span>
-            </div>
-          </div>
           {!toggled && (
             <div className="text-center page-footer mt-auto justify-content-center mb-3 pb-2">
               <p>
                 SME-SP-SGA - Distribuído sob <br />a Licença AGPL V3
               </p>
+              <div className="sidebar-wrapper">
+                <div className="text-center mx-auto justify-content-center p-2">
+                  <span className="text-bold text-white small">
+                    {version} (API: {API_VERSION})
+                  </span>
+                </div>
+              </div>
             </div>
           )}
         </ul>
