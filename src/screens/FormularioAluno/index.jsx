@@ -232,7 +232,7 @@ export class FormularioAluno extends Component {
                         ]}
                       />
                       <div className="row">
-                        <div className="col-6">
+                        <div className="col-5">
                           <Field
                             component={InputText}
                             label="E-mail do responsável"
@@ -244,7 +244,7 @@ export class FormularioAluno extends Component {
                             validate={!nao_possui_email && required}
                           />
                         </div>
-                        <div className="col-6">
+                        <div className="col-7">
                           <label className="col-form-label label-outside">
                             {!nao_possui_celular && (
                               <span className="required-asterisk">*</span>
@@ -252,7 +252,7 @@ export class FormularioAluno extends Component {
                             Telefone celular do responsável
                           </label>
                           <div className="row">
-                            <div className="col-3">
+                            <div className="col-4">
                               <Field
                                 component={InputText}
                                 name="cd_ddd_celular_responsavel"
@@ -263,7 +263,7 @@ export class FormularioAluno extends Component {
                                 validate={!nao_possui_celular && required}
                               />
                             </div>
-                            <div className="col-9">
+                            <div className="col-8">
                               <Field
                                 component={InputText}
                                 name="nr_celular_responsavel"
