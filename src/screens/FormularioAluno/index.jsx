@@ -40,7 +40,8 @@ export class FormularioAluno extends Component {
       vinculoEstudante: null,
       editar: false,
       palavrasBloqueadas: null,
-      sending: false
+      sending: false,
+      enviado_para_mercado_pago: false
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -94,10 +95,15 @@ export class FormularioAluno extends Component {
   loadAlunoHard = aluno => {
     if (aluno.responsaveis.length) {
       const responsavel = aluno.responsaveis[0];
+      if (responsavel.enviado_para_mercado_pago) {
+        toastError("Cadastro enviado para o Mercado pago. Não é possivel fazer alterações no momento.");
+      }
       this.setState({
         nao_possui_celular: responsavel.nao_possui_celular,
-        nao_possui_email: responsavel.nao_possui_email
+        nao_possui_email: responsavel.nao_possui_email,
+        enviado_para_mercado_pago: responsavel.enviado_para_mercado_pago
       });
+
       this.props.change(
         "responsavel.nm_responsavel",
         responsavel.nm_responsavel.trim()
@@ -184,7 +190,8 @@ export class FormularioAluno extends Component {
       nao_possui_email,
       aluno,
       editar,
-      sending
+      sending,
+      enviado_para_mercado_pago
     } = this.state;
     return (
       <div className="student-form">
@@ -222,7 +229,7 @@ export class FormularioAluno extends Component {
                         name="nm_responsavel"
                         placeholder={"Digite o nome do responsável"}
                         required
-                        disabled={!editar}
+                        disabled={!editar || enviado_para_mercado_pago}
                         type="text"
                         validate={[
                           required,
@@ -239,7 +246,7 @@ export class FormularioAluno extends Component {
                             name="email_responsavel"
                             placeholder={"Digite o e-mail do responsável"}
                             required={!nao_possui_email}
-                            disabled={!editar || nao_possui_email}
+                            disabled={!editar || nao_possui_email || enviado_para_mercado_pago}
                             type="email"
                             validate={!nao_possui_email && required}
                           />
@@ -257,7 +264,7 @@ export class FormularioAluno extends Component {
                                 component={InputText}
                                 name="cd_ddd_celular_responsavel"
                                 placeholder="11"
-                                disabled={!editar || nao_possui_celular}
+                                disabled={!editar || nao_possui_celular || enviado_para_mercado_pago}
                                 required={!nao_possui_celular}
                                 type="number"
                                 validate={!nao_possui_celular && required}
@@ -267,7 +274,7 @@ export class FormularioAluno extends Component {
                               <Field
                                 component={InputText}
                                 name="nr_celular_responsavel"
-                                disabled={!editar || nao_possui_celular}
+                                disabled={!editar || nao_possui_celular || enviado_para_mercado_pago}
                                 placeholder={"Digite o celular do responsável"}
                                 required={!nao_possui_celular}
                                 type="number"
@@ -292,13 +299,13 @@ export class FormularioAluno extends Component {
                               <Field
                                 component={"input"}
                                 type="checkbox"
-                                disabled={!editar}
+                                disabled={!editar || enviado_para_mercado_pago}
                                 name="nao_possui_email"
                                 checked={nao_possui_email}
                               />
                               <span
                                 onClick={() =>
-                                  editar && this.onNaoPossuiEmailChecked()
+                                  editar && !enviado_para_mercado_pago && this.onNaoPossuiEmailChecked()
                                 }
                                 className="checkbox-custom"
                               />{" "}
@@ -320,13 +327,13 @@ export class FormularioAluno extends Component {
                               <Field
                                 component={"input"}
                                 type="checkbox"
-                                disabled={!editar}
+                                disabled={!editar || enviado_para_mercado_pago}
                                 name="nao_possui_celular"
                                 checked={nao_possui_celular}
                               />
                               <span
                                 onClick={() => {
-                                  editar && this.onNaoPossuiCelularChecked();
+                                  editar && !enviado_para_mercado_pago && this.onNaoPossuiCelularChecked();
                                 }}
                                 className="checkbox-custom"
                               />{" "}
@@ -348,7 +355,7 @@ export class FormularioAluno extends Component {
                                 component={"input"}
                                 type="radio"
                                 value="1"
-                                disabled={!editar}
+                                disabled={!editar || enviado_para_mercado_pago}
                                 data-cy="radio-4h"
                                 name="tp_pessoa_responsavel"
                               />
@@ -361,7 +368,7 @@ export class FormularioAluno extends Component {
                               <Field
                                 component={"input"}
                                 type="radio"
-                                disabled={!editar}
+                                disabled={!editar || enviado_para_mercado_pago}
                                 value="2"
                                 data-cy="radio-5-7h"
                                 name="tp_pessoa_responsavel"
@@ -376,7 +383,7 @@ export class FormularioAluno extends Component {
                                 component={"input"}
                                 type="radio"
                                 value="3"
-                                disabled={!editar}
+                                disabled={!editar || enviado_para_mercado_pago}
                                 data-cy="radio-8h"
                                 name="tp_pessoa_responsavel"
                               />
@@ -389,7 +396,7 @@ export class FormularioAluno extends Component {
                               <Field
                                 component={"input"}
                                 type="radio"
-                                disabled={!editar}
+                                disabled={!editar || enviado_para_mercado_pago}
                                 value="4"
                                 data-cy="radio-8h"
                                 name="tp_pessoa_responsavel"
@@ -418,7 +425,7 @@ export class FormularioAluno extends Component {
                             name="cd_cpf_responsavel"
                             placeholder={"Digite o CPF responsável"}
                             required
-                            disabled={!editar}
+                            disabled={!editar || enviado_para_mercado_pago}
                             type="text"
                             validate={[required, validaCPF]}
                           />
@@ -430,7 +437,7 @@ export class FormularioAluno extends Component {
                             name="data_nascimento"
                             placeholder={"01/01/1990"}
                             required
-                            disabled={!editar}
+                            disabled={!editar || enviado_para_mercado_pago}
                             type="date"
                             validate={required}
                           />
@@ -441,7 +448,7 @@ export class FormularioAluno extends Component {
                         label="Nome da mãe do responsável (sem abreviações)"
                         name="nome_mae"
                         placeholder={"Digite o nome da mãe do responsável"}
-                        disabled={!editar}
+                        disabled={!editar || enviado_para_mercado_pago}
                         required
                         type="text"
                         validate={[
@@ -458,14 +465,14 @@ export class FormularioAluno extends Component {
                             <Field
                               component={"input"}
                               type="checkbox"
-                              disabled={!editar}
+                              disabled={!editar || enviado_para_mercado_pago}
                               name="check"
                               required
                               checked={check}
                             />
                             <span
                               onClick={() =>
-                                editar && this.setState({ check: !check })
+                                editar && !enviado_para_mercado_pago && this.setState({ check: !check })
                               }
                               className="checkbox-custom"
                             />{" "}
@@ -479,7 +486,7 @@ export class FormularioAluno extends Component {
                         <Botao
                           texto="voltar"
                           icon={BUTTON_ICON.ARROW_LEFT}
-                          disabled={!editar}
+                          disabled={!editar || enviado_para_mercado_pago}
                           style={BUTTON_STYLE.BLUE_OUTLINE}
                           type={BUTTON_TYPE.BUTTON}
                           onClick={() =>
@@ -489,7 +496,7 @@ export class FormularioAluno extends Component {
                         <Botao
                           className="ml-3"
                           texto={sending ? `Aguarde...` : `Atualizar cadastro`}
-                          disabled={!editar || sending}
+                          disabled={!editar || sending || enviado_para_mercado_pago}
                           style={BUTTON_STYLE.BLUE}
                           type={BUTTON_TYPE.SUBMIT}
                         />
