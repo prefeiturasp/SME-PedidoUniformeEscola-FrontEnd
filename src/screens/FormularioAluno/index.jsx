@@ -439,6 +439,7 @@ export class FormularioAluno extends Component {
                             required
                             disabled={!editar || enviado_para_mercado_pago}
                             type="date"
+                            min="1930-01-01"
                             validate={required}
                           />
                         </div>
