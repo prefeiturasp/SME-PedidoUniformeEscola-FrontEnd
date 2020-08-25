@@ -2,7 +2,7 @@ import HTTP_STATUS from "http-status-codes";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
-import { required, somenteNumeros } from "../../helpers/fieldValidators";
+import { required, somenteNumeros, somenteLetrasEPontos } from "../../helpers/fieldValidators";
 import authService from "../../services/auth.service";
 import { setUsuario, recuperaSenha } from "../../services/perfil.service";
 import { Botao } from "../../components/Botao";
@@ -10,7 +10,6 @@ import { BUTTON_STYLE, BUTTON_TYPE } from "../../components/Botao/constants";
 import { InputText } from "../../components/Input/InputText";
 import { toastError, toastSuccess } from "../../components/Toast/dialogs";
 import { validarForm } from "./validate";
-import { Cadastro } from "./components/Cadastro";
 import "./style.scss";
 import { SenhaRecuperadaSucesso } from "./components/SenhaRecuperadaSucesso";
 import { SenhaRecuperadaErro } from "./components/SenhaRecuperadaErro";
@@ -185,12 +184,12 @@ export class Login extends Component {
                 <div ref={this.emailInput} className="col-6">
                   <Field
                     component={InputText}
-                    placeholder={"seu.nome"}
+                    placeholder={"Inicio do seu e-mail SME"}
                     label="E-mail"
                     name="email"
                     required
                     type="text"
-                    validate={[required]}
+                    validate={[required, somenteLetrasEPontos]}
                   />
                 </div>
                 <div className="input-group-append col-6">
