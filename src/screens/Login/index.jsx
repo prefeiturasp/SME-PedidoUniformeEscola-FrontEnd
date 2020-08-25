@@ -2,7 +2,7 @@ import HTTP_STATUS from "http-status-codes";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
-import { required, somenteNumeros } from "../../helpers/fieldValidators";
+import { required, somenteNumeros, somenteLetrasEPontos } from "../../helpers/fieldValidators";
 import authService from "../../services/auth.service";
 import { setUsuario, recuperaSenha } from "../../services/perfil.service";
 import { Botao } from "../../components/Botao";
@@ -190,7 +190,7 @@ export class Login extends Component {
                     name="email"
                     required
                     type="text"
-                    validate={[required]}
+                    validate={[required, somenteLetrasEPontos]}
                   />
                 </div>
                 <div className="input-group-append col-6">
