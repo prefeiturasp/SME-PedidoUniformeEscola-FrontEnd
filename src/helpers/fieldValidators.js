@@ -1,35 +1,40 @@
 import { validarCPF } from "./utils";
 
-export const caracteresEspeciais = value =>
+export const caracteresEspeciais = (value) =>
   value && !/^[\w&.-]+$/i.test(value)
     ? `Não permite caracteres especiais`
     : undefined;
 
-export const required = value =>
+export const required = (value) =>
   value !== undefined ? undefined : "Campo obrigatório";
 
-export const length = size => value =>
+export const length = (size) => (value) =>
   value && value.length !== size
     ? `Deve ter exatamente ${size} caracteres`
     : undefined;
 
-export const semTresCaracteresConsecutivos = value =>
+export const semTresCaracteresConsecutivos = (value) =>
   value && /(.)\1\1/.test(value)
     ? `Não pode conter três carateres iguais consecutivos`
     : undefined;
 
-export const somenteLetrasEEspacos = value =>
+export const somenteLetrasEEspacos = (value) =>
   value && !/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/i.test(value)
     ? `Permitido somente letras e espaços`
     : undefined;
 
-export const somenteNumeros = value =>
+export const somenteLetrasEPontos = (value) =>
+  value && !/^[A-Za-z._]+$/i.test(value)
+    ? `Permitido somente letras, pontos e underline`
+    : undefined;
+
+export const somenteNumeros = (value) =>
   value && !/^[0-9]+$/i.test(value) ? `Permitido somente número` : undefined;
 
-export const validaCPF = value =>
+export const validaCPF = (value) =>
   value && !validarCPF(value) ? `CPF inválido` : undefined;
 
-export const semPalavrasBloqueadas = value =>
+export const semPalavrasBloqueadas = (value) =>
   value &&
   [
     "porra",
@@ -166,12 +171,7 @@ export const semPalavrasBloqueadas = value =>
     "xupaxota",
     "zoofilia",
     "zoofilias",
-    "zooofilia"
-  ].some(palavra =>
-    value
-      .toLowerCase()
-      .split(" ")
-      .includes(palavra)
-  )
+    "zooofilia",
+  ].some((palavra) => value.toLowerCase().split(" ").includes(palavra))
     ? `Não são permitidas palavras inapropriadas`
     : undefined;
