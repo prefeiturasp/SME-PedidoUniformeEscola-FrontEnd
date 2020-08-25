@@ -10,7 +10,6 @@ import { BUTTON_STYLE, BUTTON_TYPE } from "../../components/Botao/constants";
 import { InputText } from "../../components/Input/InputText";
 import { toastError, toastSuccess } from "../../components/Toast/dialogs";
 import { validarForm } from "./validate";
-import { Cadastro } from "./components/Cadastro";
 import "./style.scss";
 import { SenhaRecuperadaSucesso } from "./components/SenhaRecuperadaSucesso";
 import { SenhaRecuperadaErro } from "./components/SenhaRecuperadaErro";
@@ -185,7 +184,7 @@ export class Login extends Component {
                 <div ref={this.emailInput} className="col-6">
                   <Field
                     component={InputText}
-                    placeholder={"seu.nome"}
+                    placeholder={"Inicio do seu e-mail SME"}
                     label="E-mail"
                     name="email"
                     required
