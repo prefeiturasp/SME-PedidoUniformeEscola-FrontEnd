@@ -5,7 +5,7 @@ import Botao from "../../../../components/Botao";
 import { Select } from "../../../../components/Select";
 import {
   BUTTON_STYLE,
-  BUTTON_TYPE
+  BUTTON_TYPE,
 } from "../../../../components/Botao/constants";
 import { getColor } from "./helper";
 import { Paginacao } from "../../../../components/Paginacao";
@@ -16,7 +16,7 @@ export class TabelaResultados extends Component {
     super(props);
     this.state = {
       pagina: 1,
-      offset: 0
+      offset: 0,
     };
   }
 
@@ -25,9 +25,8 @@ export class TabelaResultados extends Component {
       closeCollapse,
       estudantes,
       setCodigoEol,
-      options,
-      onSelectStatus,
-      setDataNascimento
+      setDataNascimento,
+      statusBuscado,
     } = this.props;
     const { pagina } = this.state;
     return (
@@ -40,14 +39,7 @@ export class TabelaResultados extends Component {
           <thead>
             <tr className="row">
               <th className="col-6">Nome do estudante</th>
-              <th className="col-3 text-center">
-                {/*<Select
-                  onChange={event => onSelectStatus(event.target.value)}
-                  options={options}
-                  naoDesabilitarPrimeiraOpcao
-                />*/}
-                Situação Cadastral
-              </th>
+              <th className="col-3 text-center">Situação Cadastral</th>
               <th className="col-3" />
             </tr>
           </thead>
@@ -66,10 +58,10 @@ export class TabelaResultados extends Component {
                     <td className={`col-3 text-center status`}>
                       <span
                         className={`${getColor(
-                          estudante.status || "Cadastro Desatualizado"
+                          statusBuscado || "Cadastro Desatualizado"
                         )}`}
                       >
-                        {estudante.status || "Cadastro Desatualizado"}
+                        {statusBuscado || "Cadastro Desatualizado"}
                       </span>
                     </td>
                     <td className="col-3 text-center">
@@ -90,7 +82,7 @@ export class TabelaResultados extends Component {
                 );
               })}
             <Paginacao
-              onChange={pagina => this.setState({ pagina })}
+              onChange={(pagina) => this.setState({ pagina })}
               total={estudantes.length}
             />
           </tbody>

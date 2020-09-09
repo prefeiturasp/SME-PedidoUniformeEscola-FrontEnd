@@ -17,7 +17,8 @@ export class ListaAlunos extends Component {
       estudantesSemFiltro: [],
       options: [],
       openCollapse: true,
-      status: false
+      status: false,
+      statusBuscado: null,
     };
     this.setEstudantes = this.setEstudantes.bind(this);
   }
@@ -26,11 +27,11 @@ export class ListaAlunos extends Component {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get("status");
     if (status) {
-      getListaAlunos(`?status=${status}`).then(response => {
+      getListaAlunos(`?status=${status}`).then((response) => {
         if (response.status === HTTP_STATUS.OK) {
           this.setCodigoEol(null);
           this.setEstudantes(response.data);
-          this.setState({ openCollapse: false });
+          this.setState({ openCollapse: false, statusBuscado: status });
           if (status === "Cadastro Desatualizado") {
             this.setState({ status: true });
           }
@@ -44,7 +45,7 @@ export class ListaAlunos extends Component {
     }
   }
 
-  setEstudantes = estudantes => {
+  setEstudantes = (estudantes) => {
     this.setState({ estudantes, estudantesSemFiltro: estudantes });
     const options = getStatusOptions(estudantes);
     this.setState({ options });
@@ -58,21 +59,21 @@ export class ListaAlunos extends Component {
     this.setState({ openCollapse: false });
   };
 
-  setCodigoEol = codigo_eol => {
+  setCodigoEol = (codigo_eol) => {
     this.setState({ codigo_eol });
   };
 
-  setDataNascimento = data_nascimento => {
+  setDataNascimento = (data_nascimento) => {
     this.setState({ data_nascimento });
   };
 
-  onSelectStatus = status => {
+  onSelectStatus = (status) => {
     const { estudantesSemFiltro } = this.state;
     if (status !== "Situação Cadastral") {
       this.setState({
         estudantes: estudantesSemFiltro.filter(
-          estudante => estudante.status === status
-        )
+          (estudante) => estudante.status === status
+        ),
       });
     } else {
       this.setState({ estudantes: estudantesSemFiltro });
@@ -86,7 +87,8 @@ export class ListaAlunos extends Component {
       codigo_eol,
       openCollapse,
       status,
-      data_nascimento
+      statusBuscado,
+      data_nascimento,
     } = this.state;
     return (
       <div className="card">
@@ -112,6 +114,7 @@ export class ListaAlunos extends Component {
                   else if (a[param] > b[param]) return 1;
                   return 0;
                 })}
+                statusBuscado={statusBuscado}
                 options={options}
               />
             </div>
