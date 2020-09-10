@@ -1,15 +1,15 @@
-export const formatarEstudantes = estudantes => {
+export const formatarNomesEstudantes = (responsaveis) => {
   let nomesEstudantes = [];
-  estudantes.forEach(estudante => {
-    nomesEstudantes.push(estudante.nome);
+  responsaveis.forEach((responsavel) => {
+    nomesEstudantes.push(responsavel.nome_aluno);
   });
   return nomesEstudantes;
 };
 
-export const formatarNomesResponsaveis = estudantes => {
+export const formatarNomesResponsaveis = (responsaveis) => {
   let nomesResponsaveis = [];
-  estudantes.forEach(estudante => {
-    nomesResponsaveis.push(estudante.responsavel_nome);
+  responsaveis.forEach((responsavel) => {
+    nomesResponsaveis.push(responsavel.nome);
   });
   return nomesResponsaveis;
 };

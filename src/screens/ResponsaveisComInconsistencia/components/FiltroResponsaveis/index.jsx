@@ -12,21 +12,20 @@ import {
   BUTTON_STYLE,
   BUTTON_TYPE,
 } from "../../../../components/Botao/constants";
-import {
-  getListaAlunos,
-  getTodosAlunos,
-} from "../../../../services/listaAlunos.service";
-import { formatarEstudantes, formatarNomesResponsaveis } from "./helper";
+import { formatarNomesResponsaveis, formatarNomesEstudantes } from "./helper";
 import { toastError } from "../../../../components/Toast/dialogs";
+import { getListaResponsaveis } from "../../../../services/listaResponsaveis";
 
 export class FiltroResponsaveis extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      codigoEol: null,
+      cpf: null,
       sugestoesEstudantes: null,
       sugestoesNomesResponsaveis: null,
       openCollapse: true,
-      estudantes: [],
+      nomesEstudantes: [],
       nomesResponsaveis: [],
       nome_estudante: null,
       nome_responsavel: null,
@@ -47,17 +46,15 @@ export class FiltroResponsaveis extends Component {
   }
 
   componentDidMount() {
-    getTodosAlunos().then((response) => {
-      this.setState({
-        estudantes: formatarEstudantes(response.data),
-        nomesResponsaveis: formatarNomesResponsaveis(response.data),
-      });
+    this.setState({
+      nomesEstudantes: formatarNomesEstudantes(this.props.responsaveis),
+      nomesResponsaveis: formatarNomesResponsaveis(this.props.responsaveis),
     });
   }
 
   sugerirEstudantes(event) {
-    const { estudantes } = this.state;
-    let sugestoesEstudantes = estudantes.filter((estudante) => {
+    const { nomesEstudantes } = this.state;
+    let sugestoesEstudantes = nomesEstudantes.filter((estudante) => {
       return estudante.toLowerCase().includes(event.query.toLowerCase());
     });
     this.setState({ sugestoesEstudantes });
@@ -96,6 +93,14 @@ export class FiltroResponsaveis extends Component {
     if (values.codigo_eol) {
       getParams += `codigo_eol=${values.codigo_eol}`;
     }
+    if (values.cpf_responsavel) {
+      if (getParams.length > 1) {
+        getParams += "&";
+      }
+      getParams += `cpf_responsavel=${values.cpf_responsavel
+        .replace("-", "")
+        .replaceAll(".", "")}`;
+    }
     if (nome_estudante_valido) {
       if (getParams.length > 1) {
         getParams += "&";
@@ -108,17 +113,21 @@ export class FiltroResponsaveis extends Component {
       }
       getParams += `nome_responsavel=${nome_responsavel_valido}`;
     }
-    getListaAlunos(getParams).then((response) => {
-      if (response.status === HTTP_STATUS.OK) {
-        this.props.setCodigoEol(null);
-        this.props.setResponsaveis(response.data);
-        if (response.data.length === 0) {
-          toastError("Nenhum resultado encontrado");
+    getListaResponsaveis(getParams)
+      .then((response) => {
+        if (response.status === HTTP_STATUS.OK) {
+          this.props.setCodigoEol(null);
+          this.props.setResponsaveis(response.data);
+          if (response.data.length === 0) {
+            toastError("Nenhum resultado encontrado");
+          }
+        } else {
+          toastError(response.data.detail);
         }
-      } else {
-        toastError(response.data.detail);
-      }
-    });
+      })
+      .catch(() => {
+        toastError("Erro ao buscar responsáveis");
+      });
   }
 
   render() {
@@ -127,8 +136,11 @@ export class FiltroResponsaveis extends Component {
       codigo_eol,
       openCollapse,
       alterCollapse,
+      setCodigoEol,
     } = this.props;
     const {
+      codigoEol,
+      cpf,
       nome_estudante,
       nome_estudante_valido,
       sugestoesEstudantes,
@@ -155,6 +167,9 @@ export class FiltroResponsaveis extends Component {
                     component={InputText}
                     disabled={nome_estudante || nome_responsavel}
                     name="codigo_eol"
+                    onChange={(event) =>
+                      this.setState({ codigoEol: event.target.value })
+                    }
                     type="number"
                     placeholder="Digite o Código EOL do estudante"
                     label="Código EOL"
@@ -190,7 +205,10 @@ export class FiltroResponsaveis extends Component {
                     component={InputText}
                     disabled={nome_estudante || nome_responsavel}
                     name="cpf_responsavel"
-                    type="number"
+                    onChange={(event) =>
+                      this.setState({ cpf: event.target.value })
+                    }
+                    type="text"
                     placeholder="Digite o CPF do responsável"
                     label="CPF do responsável"
                   />
@@ -236,7 +254,8 @@ export class FiltroResponsaveis extends Component {
                     style={BUTTON_STYLE.BLUE}
                     type={BUTTON_TYPE.SUBMIT}
                     disabled={
-                      !codigo_eol &&
+                      !codigoEol &&
+                      !cpf &&
                       !nome_estudante_valido &&
                       !nome_responsavel_valido
                     }
@@ -253,10 +272,10 @@ export class FiltroResponsaveis extends Component {
 }
 
 FiltroResponsaveis = reduxForm({
-  form: "ListaAlunosForm",
+  form: "ListaResponsaveisForm",
   enableReinitialize: true,
 })(FiltroResponsaveis);
-const selector = formValueSelector("ListaAlunosForm");
+const selector = formValueSelector("ListaResponsaveisForm");
 const mapStateToProps = (state) => {
   return {
     codigo_eol: selector(state, "codigo_eol"),
