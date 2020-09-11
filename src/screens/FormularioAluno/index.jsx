@@ -5,14 +5,14 @@ import { Field, reduxForm, formValueSelector, FormSection } from "redux-form";
 import {
   getAluno,
   updateAluno,
-  getAlunoEOL
+  getAlunoEOL,
 } from "../../services/cadastroAluno.service";
 import { toastError, toastSuccess } from "../../components/Toast/dialogs";
 import Botao from "../../components/Botao";
 import {
   BUTTON_ICON,
   BUTTON_TYPE,
-  BUTTON_STYLE
+  BUTTON_STYLE,
 } from "../../components/Botao/constants";
 import "./style.scss";
 import { ToggleSwitch } from "../../components/ToggleSwitch";
@@ -22,12 +22,13 @@ import {
   semTresCaracteresConsecutivos,
   somenteLetrasEEspacos,
   validaCPF,
-  semPalavrasBloqueadas
+  semPalavrasBloqueadas,
 } from "../../helpers/fieldValidators";
 import { MaskCPF, getError } from "../../helpers/utils";
 import { validaFormulario } from "./validate";
 import { formatarPayload } from "./helper";
 import { getPalavrasBloqueadas } from "../../services/palavrasBloqueadas.service";
+import { LoadingCircle } from "../../components/LoadingCircle";
 
 export class FormularioAluno extends Component {
   constructor(props) {
@@ -41,7 +42,9 @@ export class FormularioAluno extends Component {
       editar: false,
       palavrasBloqueadas: null,
       sending: false,
-      enviado_para_mercado_pago: false
+      enviado_para_mercado_pago: false,
+      loading: true,
+      erroAPI: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -49,7 +52,7 @@ export class FormularioAluno extends Component {
   onNaoPossuiCelularChecked() {
     const { nao_possui_celular } = this.state;
     this.setState({
-      nao_possui_celular: !nao_possui_celular
+      nao_possui_celular: !nao_possui_celular,
     });
     this.props.change("responsavel.cd_ddd_celular_responsavel", null);
     this.props.change("responsavel.nr_celular_responsavel", null);
@@ -58,7 +61,7 @@ export class FormularioAluno extends Component {
   onNaoPossuiEmailChecked() {
     const { nao_possui_email } = this.state;
     this.setState({
-      nao_possui_email: !nao_possui_email
+      nao_possui_email: !nao_possui_email,
     });
     this.props.change("responsavel.email_responsavel", null);
   }
@@ -66,42 +69,54 @@ export class FormularioAluno extends Component {
   componentDidMount() {
     const { codigoEol, dataNascimento, status } = this.props;
     if (!status) {
-      getAluno(codigoEol).then(response => {
-        if (response.status === HTTP_STATUS.OK) {
-          this.setState({ aluno: response.data });
-          this.loadAlunoHard(response.data);
-        } else {
-          toastError(response.data.detail);
-        }
-      });
+      getAluno(codigoEol)
+        .then((response) => {
+          if (response.status === HTTP_STATUS.OK) {
+            this.setState({ aluno: response.data, loading: false });
+            this.loadAlunoHard(response.data);
+          } else {
+            toastError(response.data.detail);
+            this.setState({ loading: false });
+          }
+        })
+        .catch(() => {
+          this.setState({ loading: false, erroAPI: true });
+        });
     } else {
       getAlunoEOL({
         codigo_eol: codigoEol,
-        data_nascimento: dataNascimento.slice(0, 10)
-      }).then(response => {
-        if (response.status === HTTP_STATUS.OK) {
-          this.setState({ aluno: response.data.detail });
-          this.loadAlunoHard(response.data.detail);
-        } else {
-          toastError(response.data.detail);
-        }
-      });
+        data_nascimento: dataNascimento.slice(0, 10),
+      })
+        .then((response) => {
+          if (response.status === HTTP_STATUS.OK) {
+            this.setState({ aluno: response.data.detail, loading: false });
+            this.loadAlunoHard(response.data.detail);
+          } else {
+            toastError(response.data.detail);
+            this.setState({ loading: false });
+          }
+        })
+        .catch(() => {
+          this.setState({ loading: false, erroAPI: true });
+        });
     }
-    getPalavrasBloqueadas().then(response => {
+    getPalavrasBloqueadas().then((response) => {
       this.setState({ palavrasBloqueadas: response.data });
     });
   }
 
-  loadAlunoHard = aluno => {
+  loadAlunoHard = (aluno) => {
     if (aluno.responsaveis.length) {
       const responsavel = aluno.responsaveis[0];
       if (responsavel.enviado_para_mercado_pago) {
-        toastError("Cadastro enviado para o Mercado pago. Não é possivel fazer alterações no momento.");
+        toastError(
+          "Cadastro enviado para o Mercado pago. Não é possivel fazer alterações no momento."
+        );
       }
       this.setState({
         nao_possui_celular: responsavel.nao_possui_celular,
         nao_possui_email: responsavel.nao_possui_email,
-        enviado_para_mercado_pago: responsavel.enviado_para_mercado_pago
+        enviado_para_mercado_pago: responsavel.enviado_para_mercado_pago,
       });
 
       this.props.change(
@@ -171,7 +186,7 @@ export class FormularioAluno extends Component {
       toastError(erro);
     } else {
       this.setState({ sending: true });
-      updateAluno(formatarPayload(values, this.state)).then(response => {
+      updateAluno(formatarPayload(values, this.state)).then((response) => {
         this.setState({ sending: false });
         if (response.status === HTTP_STATUS.CREATED) {
           toastSuccess("Aluno atualizado com sucesso!");
@@ -191,20 +206,29 @@ export class FormularioAluno extends Component {
       aluno,
       editar,
       sending,
-      enviado_para_mercado_pago
+      enviado_para_mercado_pago,
+      loading,
+      erroAPI,
     } = this.state;
     return (
       <div className="student-form">
         <div className="card">
           <div className="card-body">
-            {!aluno ? (
-              <div>Aluno não encontrado</div>
-            ) : (
+            {erroAPI && <div>Erro ao carregar dados do aluno</div>}
+            {loading && !erroAPI && (
+              <div className="loading-circle">
+                <LoadingCircle />
+              </div>
+            )}
+            {!loading && !aluno && !erroAPI && <div>Aluno não encontrado</div>}
+            {!loading && aluno && (
               <Fragment>
                 <form formKey={2} onSubmit={handleSubmit(this.onSubmit)}>
                   <div className="row pb-3">
                     <div className="col-6">
-                      <div className="card-title">{aluno.nome || aluno.nm_aluno}</div>
+                      <div className="card-title">
+                        {aluno.nome || aluno.nm_aluno}
+                      </div>
                     </div>
                   </div>
                   <div className="row">
@@ -235,7 +259,7 @@ export class FormularioAluno extends Component {
                           required,
                           semTresCaracteresConsecutivos,
                           somenteLetrasEEspacos,
-                          semPalavrasBloqueadas
+                          semPalavrasBloqueadas,
                         ]}
                       />
                       <div className="row">
@@ -246,7 +270,11 @@ export class FormularioAluno extends Component {
                             name="email_responsavel"
                             placeholder={"Digite o e-mail do responsável"}
                             required={!nao_possui_email}
-                            disabled={!editar || nao_possui_email || enviado_para_mercado_pago}
+                            disabled={
+                              !editar ||
+                              nao_possui_email ||
+                              enviado_para_mercado_pago
+                            }
                             type="email"
                             validate={!nao_possui_email && required}
                           />
@@ -264,7 +292,11 @@ export class FormularioAluno extends Component {
                                 component={InputText}
                                 name="cd_ddd_celular_responsavel"
                                 placeholder="11"
-                                disabled={!editar || nao_possui_celular || enviado_para_mercado_pago}
+                                disabled={
+                                  !editar ||
+                                  nao_possui_celular ||
+                                  enviado_para_mercado_pago
+                                }
                                 required={!nao_possui_celular}
                                 type="number"
                                 validate={!nao_possui_celular && required}
@@ -274,7 +306,11 @@ export class FormularioAluno extends Component {
                               <Field
                                 component={InputText}
                                 name="nr_celular_responsavel"
-                                disabled={!editar || nao_possui_celular || enviado_para_mercado_pago}
+                                disabled={
+                                  !editar ||
+                                  nao_possui_celular ||
+                                  enviado_para_mercado_pago
+                                }
                                 placeholder={"Digite o celular do responsável"}
                                 required={!nao_possui_celular}
                                 type="number"
@@ -305,7 +341,9 @@ export class FormularioAluno extends Component {
                               />
                               <span
                                 onClick={() =>
-                                  editar && !enviado_para_mercado_pago && this.onNaoPossuiEmailChecked()
+                                  editar &&
+                                  !enviado_para_mercado_pago &&
+                                  this.onNaoPossuiEmailChecked()
                                 }
                                 className="checkbox-custom"
                               />{" "}
@@ -333,7 +371,9 @@ export class FormularioAluno extends Component {
                               />
                               <span
                                 onClick={() => {
-                                  editar && !enviado_para_mercado_pago && this.onNaoPossuiCelularChecked();
+                                  editar &&
+                                    !enviado_para_mercado_pago &&
+                                    this.onNaoPossuiCelularChecked();
                                 }}
                                 className="checkbox-custom"
                               />{" "}
@@ -456,7 +496,7 @@ export class FormularioAluno extends Component {
                           required,
                           semTresCaracteresConsecutivos,
                           somenteLetrasEEspacos,
-                          semPalavrasBloqueadas
+                          semPalavrasBloqueadas,
                         ]}
                       />
                       <div className="pt-3">
@@ -473,7 +513,9 @@ export class FormularioAluno extends Component {
                             />
                             <span
                               onClick={() =>
-                                editar && !enviado_para_mercado_pago && this.setState({ check: !check })
+                                editar &&
+                                !enviado_para_mercado_pago &&
+                                this.setState({ check: !check })
                               }
                               className="checkbox-custom"
                             />{" "}
@@ -497,7 +539,9 @@ export class FormularioAluno extends Component {
                         <Botao
                           className="ml-3"
                           texto={sending ? `Aguarde...` : `Atualizar cadastro`}
-                          disabled={!editar || sending || enviado_para_mercado_pago}
+                          disabled={
+                            !editar || sending || enviado_para_mercado_pago
+                          }
                           style={BUTTON_STYLE.BLUE}
                           type={BUTTON_TYPE.SUBMIT}
                         />
@@ -516,13 +560,13 @@ export class FormularioAluno extends Component {
 
 FormularioAluno = reduxForm({
   form: "FormularioAlunosForm",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(FormularioAluno);
 
 const selector = formValueSelector("FormularioAlunosForm");
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    check: selector(state, "check")
+    check: selector(state, "check"),
   };
 };
 

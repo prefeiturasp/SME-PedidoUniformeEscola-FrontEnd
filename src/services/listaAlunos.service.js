@@ -16,7 +16,7 @@ export const getListaAlunos = getParams => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };
 
@@ -35,6 +35,6 @@ export const getTodosAlunos = () => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };

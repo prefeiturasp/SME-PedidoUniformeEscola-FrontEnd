@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import HTTP_STATUS from "http-status-codes";
 import { version } from "../../../package.json";
 import { NavLink } from "react-router-dom";
 import {
@@ -19,8 +20,11 @@ export class Sidebar extends Component {
   }
 
   async componentDidMount() {
-    const response = await getAPIVersion();
-    this.setState({ API_VERSION: response.data.API_Version });
+    getAPIVersion().then((response) => {
+      if (response.status === HTTP_STATUS.OK) {
+        this.setState({ API_VERSION: response.data.API_Version });
+      }
+    });
   }
 
   render() {
@@ -82,7 +86,10 @@ export class Sidebar extends Component {
             )}
             {perfilEscola() && (
               <li className="nav-item">
-                <NavLink className={`nav-link collapsed`} to="/inconsistencias-mp">
+                <NavLink
+                  className={`nav-link collapsed`}
+                  to="/inconsistencias-mp"
+                >
                   <i className="fas fa-exclamation-triangle" />
                   <span>Inconsistências retornadas pela Mercado Pago</span>
                 </NavLink>

@@ -151,7 +151,10 @@ export class FiltroResponsaveis extends Component {
     return (
       <div className="list-filter">
         <div className="top-collapse pt-2 pb-2">
-          <label>Buscar EOL, nome de estudante ou nome do responsável</label>
+          <label>
+            Buscar EOL, nome de estudante, CPF do responsável ou nome do
+            responsável
+          </label>
           <ToggleExpandir
             onClick={() => alterCollapse()}
             ativo={openCollapse}

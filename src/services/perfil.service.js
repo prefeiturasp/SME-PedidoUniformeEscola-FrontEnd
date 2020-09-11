@@ -35,7 +35,7 @@ export const confirmarEmail = (uuid, confirmationKey) => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };
 
@@ -74,6 +74,6 @@ export const atualizarSenha = (uuid, confirmationKey, payLoad) => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };

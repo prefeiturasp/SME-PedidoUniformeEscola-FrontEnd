@@ -16,7 +16,7 @@ export const getAluno = codigoEol => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };
 
@@ -36,7 +36,7 @@ export const getAlunoEOL = payload => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };
 
@@ -56,6 +56,6 @@ export const updateAluno = payload => {
       return { data: data, status: status };
     })
     .catch(error => {
-      return error.json();
+      return error;
     });
 };
