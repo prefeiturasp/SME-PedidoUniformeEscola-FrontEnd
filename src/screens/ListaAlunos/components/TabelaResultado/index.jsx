@@ -38,8 +38,8 @@ export class TabelaResultados extends Component {
         <table className="table-students mt-3">
           <thead>
             <tr className="row">
-              <th className="col-6">Nome do estudante</th>
-              <th className="col-3 text-center">Situação Cadastral</th>
+              <th className="col-5">Nome do estudante</th>
+              <th className="col-4 text-center">Situação Cadastral</th>
               <th className="col-3" />
             </tr>
           </thead>
@@ -52,16 +52,20 @@ export class TabelaResultados extends Component {
               .map((estudante, key) => {
                 return (
                   <tr className="row" key={key}>
-                    <td className="col-6">
+                    <td className="col-5">
                       {estudante.nome || estudante.nm_aluno.toString()}
                     </td>
-                    <td className={`col-3 text-center status`}>
+                    <td className={`col-4 text-center status`}>
                       <span
                         className={`${getColor(
-                          statusBuscado || "Cadastro Desatualizado"
+                          statusBuscado ||
+                            estudante.status ||
+                            "Cadastro Desatualizado"
                         )}`}
                       >
-                        {statusBuscado || "Cadastro Desatualizado"}
+                        {statusBuscado ||
+                          estudante.status ||
+                          "Cadastro Desatualizado"}
                       </span>
                     </td>
                     <td className="col-3 text-center">

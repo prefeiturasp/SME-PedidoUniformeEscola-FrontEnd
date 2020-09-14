@@ -38,8 +38,8 @@ export class TabelaResultados extends Component {
           <thead>
             <tr className="row">
               <th className="col-3">Nome do responsável</th>
-              <th className="col-3">CPF do responsável</th>
-              <th className="col-3 text-center">Situação cadastral</th>
+              <th className="col-2">CPF do responsável</th>
+              <th className="col-4 text-center">Situação cadastral</th>
               <th className="col-3" />
             </tr>
           </thead>
@@ -53,8 +53,8 @@ export class TabelaResultados extends Component {
                 return (
                   <tr className="row" key={key}>
                     <td className="col-3">{responsavel.nome}</td>
-                    <td className="col-3">{formatarCPF(responsavel.cpf)}</td>
-                    <td className={`col-3 text-center status`}>
+                    <td className="col-2">{formatarCPF(responsavel.cpf)}</td>
+                    <td className={`col-4 text-center status`}>
                       <span className={`${getColor(responsavel.status)}`}>
                         {responsavel.status}
                       </span>

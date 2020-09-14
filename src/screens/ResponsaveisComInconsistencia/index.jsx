@@ -52,7 +52,7 @@ export const ResponsaveisComInconsistencia = () => {
         )}
         {codigo_eol && (
           <div className="pt-3">
-            <FormularioAluno codigoEol={codigo_eol} />
+            <FormularioAluno codigoEol={codigo_eol} inconsistencias={true} />
           </div>
         )}
       </div>
