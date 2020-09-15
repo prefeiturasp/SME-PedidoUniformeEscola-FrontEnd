@@ -190,14 +190,16 @@ export class FormularioAluno extends Component {
       toastError(erro);
     } else {
       this.setState({ sending: true });
-      updateAluno(formatarPayload(values, this.state)).then((response) => {
-        this.setState({ sending: false });
-        if (response.status === HTTP_STATUS.CREATED) {
-          toastSuccess("Aluno atualizado com sucesso!");
-        } else {
-          toastError(getError(response.data));
+      updateAluno(formatarPayload(values, this.state, this.props)).then(
+        (response) => {
+          this.setState({ sending: false });
+          if (response.status === HTTP_STATUS.CREATED) {
+            toastSuccess("Aluno atualizado com sucesso!");
+          } else {
+            toastError(getError(response.data));
+          }
         }
-      });
+      );
     }
   }
 
