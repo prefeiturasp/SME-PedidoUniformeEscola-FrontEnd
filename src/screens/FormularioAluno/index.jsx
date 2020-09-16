@@ -548,7 +548,7 @@ export class FormularioAluno extends Component {
                             <span
                               onClick={() =>
                                 editar &&
-                                !enviado_para_mercado_pago &&
+                                !nao_pode_editar &&
                                 this.setState({ check: !check })
                               }
                               className="checkbox-custom"
