@@ -5,11 +5,22 @@ import {
   Pie,
   Tooltip,
   Legend,
-  Cell
+  Cell,
 } from "recharts";
 import "./style.scss";
 
-const COLORS = ["#80d7c9", "#3cc0ab", "#edb971", "#f3e68d", "#f69084"];
+const COLORS = [
+  "#80d7c9",
+  "#3cc0ab",
+  "#edb971",
+  "#f3e260",
+  "#fdfae5",
+  "#faf3c0",
+  "#f3e68d",
+  "#a1bacc",
+  "#6cc484",
+  "#f69084",
+];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -18,7 +29,7 @@ const renderCustomizedLabel = ({
   midAngle,
   innerRadius,
   outerRadius,
-  percent
+  percent,
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -46,9 +57,9 @@ export default class GraficoVagasMatriculasSME extends PureComponent {
       vAlignLegenda: "top",
       alignLegenda: "right",
       marginLegenda: {
-        marginTop: "200px",
-        marginLeft: "100px"
-      }
+        marginTop: "30px",
+        marginLeft: "100px",
+      },
     };
   }
 

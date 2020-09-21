@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import "./style.scss";
 import Botao from "../../../../components/Botao";
-import { Select } from "../../../../components/Select";
 import {
   BUTTON_STYLE,
   BUTTON_TYPE,
 } from "../../../../components/Botao/constants";
-import { getColor } from "./helper";
+import { getColor, formatarCPF } from "./helper";
 import { Paginacao } from "../../../../components/Paginacao";
 import { QUANTIDADE_POR_PAGINA } from "../../../../components/Paginacao/constants";
 
@@ -23,7 +22,7 @@ export class TabelaResultados extends Component {
   render() {
     const {
       closeCollapse,
-      estudantes,
+      responsaveis,
       setCodigoEol,
       setDataNascimento,
       statusBuscado,
@@ -38,34 +37,26 @@ export class TabelaResultados extends Component {
         <table className="table-students mt-3">
           <thead>
             <tr className="row">
-              <th className="col-5">Nome do estudante</th>
-              <th className="col-4 text-center">Situação Cadastral</th>
+              <th className="col-3">Nome do responsável</th>
+              <th className="col-2">CPF do responsável</th>
+              <th className="col-4 text-center">Situação cadastral</th>
               <th className="col-3" />
             </tr>
           </thead>
           <tbody>
-            {estudantes
+            {responsaveis
               .slice(
                 QUANTIDADE_POR_PAGINA * (pagina - 1),
                 QUANTIDADE_POR_PAGINA * pagina
               )
-              .map((estudante, key) => {
+              .map((responsavel, key) => {
                 return (
                   <tr className="row" key={key}>
-                    <td className="col-5">
-                      {estudante.nome || estudante.nm_aluno.toString()}
-                    </td>
+                    <td className="col-3">{responsavel.nome}</td>
+                    <td className="col-2">{formatarCPF(responsavel.cpf)}</td>
                     <td className={`col-4 text-center status`}>
-                      <span
-                        className={`${getColor(
-                          statusBuscado ||
-                            estudante.status ||
-                            "Cadastro Desatualizado"
-                        )}`}
-                      >
-                        {statusBuscado ||
-                          estudante.status ||
-                          "Cadastro Desatualizado"}
+                      <span className={`${getColor(responsavel.status)}`}>
+                        {responsavel.status}
                       </span>
                     </td>
                     <td className="col-3 text-center">
@@ -74,10 +65,7 @@ export class TabelaResultados extends Component {
                         type={BUTTON_TYPE.BUTTON}
                         texto="Visualizar cadastro"
                         onClick={() => {
-                          setCodigoEol(
-                            estudante.codigo_eol || estudante.cd_aluno
-                          );
-                          setDataNascimento(estudante.dt_nascimento_aluno);
+                          setCodigoEol(responsavel.codigo_eol);
                           closeCollapse();
                         }}
                       />
@@ -87,7 +75,7 @@ export class TabelaResultados extends Component {
               })}
             <Paginacao
               onChange={(pagina) => this.setState({ pagina })}
-              total={estudantes.length}
+              total={responsaveis.length}
             />
           </tbody>
         </table>

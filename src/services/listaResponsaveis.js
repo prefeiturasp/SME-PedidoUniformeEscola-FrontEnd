@@ -1,40 +1,40 @@
 import { API_URL } from "../config";
 import { AUTH_TOKEN } from "./constants";
 
-export const getListaAlunos = getParams => {
-  const url = `${API_URL}/alunos/${getParams}`;
+export const getListaResponsaveis = (getParams) => {
+  const url = `${API_URL}/responsaveis/${getParams}`;
   let status = 0;
   return fetch(url, {
     method: "GET",
-    headers: AUTH_TOKEN
+    headers: AUTH_TOKEN,
   })
-    .then(res => {
+    .then((res) => {
       status = res.status;
       return res.json();
     })
-    .then(data => {
+    .then((data) => {
       return { data: data, status: status };
     })
-    .catch(error => {
+    .catch((error) => {
       return error;
     });
 };
 
-export const getTodosAlunos = () => {
-  const url = `${API_URL}/alunos/`;
+export const getTodosResponsaveisInconsistentes = () => {
+  const url = `${API_URL}/responsaveis/`;
   let status = 0;
   return fetch(url, {
     method: "GET",
-    headers: AUTH_TOKEN
+    headers: AUTH_TOKEN,
   })
-    .then(res => {
+    .then((res) => {
       status = res.status;
       return res.json();
     })
-    .then(data => {
+    .then((data) => {
       return { data: data, status: status };
     })
-    .catch(error => {
+    .catch((error) => {
       return error;
     });
 };
