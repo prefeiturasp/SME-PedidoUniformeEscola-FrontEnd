@@ -19,6 +19,6 @@ export const getDadosPainelGerencial = (cod_eol_escola = null) => {
       return { data: data, status: status };
     })
     .catch((error) => {
-      return error.json();
+      return error;
     });
 };
