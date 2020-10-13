@@ -17,7 +17,8 @@ export class ListaAlunos extends Component {
       estudantesSemFiltro: [],
       options: [],
       openCollapse: true,
-      status: false
+      status: false,
+      statusBuscado: null,
     };
     this.setEstudantes = this.setEstudantes.bind(this);
   }
@@ -30,7 +31,7 @@ export class ListaAlunos extends Component {
         if (response.status === HTTP_STATUS.OK) {
           this.setCodigoEol(null);
           this.setEstudantes(response.data);
-          this.setState({ openCollapse: false });
+          this.setState({ openCollapse: false, statusBuscado: status });
           if (status === "Cadastro Desatualizado") {
             this.setState({ status: true });
           }
@@ -86,6 +87,7 @@ export class ListaAlunos extends Component {
       codigo_eol,
       openCollapse,
       status,
+      statusBuscado,
       data_nascimento
     } = this.state;
     return (
@@ -112,6 +114,7 @@ export class ListaAlunos extends Component {
                   else if (a[param] > b[param]) return 1;
                   return 0;
                 })}
+                statusBuscado={statusBuscado}
                 options={options}
               />
             </div>

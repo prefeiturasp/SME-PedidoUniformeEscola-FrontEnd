@@ -5,7 +5,7 @@ import Botao from "../../../../components/Botao";
 import { Select } from "../../../../components/Select";
 import {
   BUTTON_STYLE,
-  BUTTON_TYPE
+  BUTTON_TYPE,
 } from "../../../../components/Botao/constants";
 import { getColor } from "./helper";
 import { Paginacao } from "../../../../components/Paginacao";
@@ -16,7 +16,7 @@ export class TabelaResultados extends Component {
     super(props);
     this.state = {
       pagina: 1,
-      offset: 0
+      offset: 0,
     };
   }
 
@@ -27,7 +27,8 @@ export class TabelaResultados extends Component {
       setCodigoEol,
       options,
       onSelectStatus,
-      setDataNascimento
+      setDataNascimento,
+      statusBuscado,
     } = this.props;
     const { pagina } = this.state;
     return (
@@ -66,10 +67,14 @@ export class TabelaResultados extends Component {
                     <td className={`col-3 text-center status`}>
                       <span
                         className={`${getColor(
-                          estudante.status || "Cadastro Desatualizado"
+                          statusBuscado ||
+                            estudante.status ||
+                            "Cadastro Desatualizado"
                         )}`}
                       >
-                        {estudante.status || "Cadastro Desatualizado"}
+                        {statusBuscado ||
+                          estudante.status ||
+                          "Cadastro Desatualizado"}
                       </span>
                     </td>
                     <td className="col-3 text-center">
@@ -90,7 +95,7 @@ export class TabelaResultados extends Component {
                 );
               })}
             <Paginacao
-              onChange={pagina => this.setState({ pagina })}
+              onChange={(pagina) => this.setState({ pagina })}
               total={estudantes.length}
             />
           </tbody>
