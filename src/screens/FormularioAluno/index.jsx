@@ -356,7 +356,9 @@ export class FormularioAluno extends Component {
                       </div>
                       <div className="row pt-3 pb-3">
                         <div className="col-6">
-                          {aluno.responsaveis[0].status === "CPF_INVALIDO" && (
+                          {(!inconsistencias ||
+                            aluno.responsaveis[0].status ===
+                              "CPF_INVALIDO") && (
                             <Fragment>
                               <Field
                                 component={"input"}
