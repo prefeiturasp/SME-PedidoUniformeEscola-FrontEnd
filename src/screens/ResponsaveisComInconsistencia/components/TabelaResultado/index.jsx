@@ -20,13 +20,7 @@ export class TabelaResultados extends Component {
   }
 
   render() {
-    const {
-      closeCollapse,
-      responsaveis,
-      setCodigoEol,
-      setDataNascimento,
-      statusBuscado,
-    } = this.props;
+    const { closeCollapse, responsaveis, setCodigoEol } = this.props;
     const { pagina } = this.state;
     return (
       <div className="table-results">

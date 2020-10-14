@@ -356,34 +356,42 @@ export class FormularioAluno extends Component {
                       </div>
                       <div className="row pt-3 pb-3">
                         <div className="col-6">
-                          <Field
-                            component={"input"}
-                            type="hidden"
-                            name="value"
-                          />
-                          <div className="form-check">
-                            <label
-                              htmlFor="nao_possui_email"
-                              className="checkbox-label"
-                            >
+                          {(!inconsistencias ||
+                            aluno.responsaveis[0].status ===
+                              "CPF_INVALIDO") && (
+                            <Fragment>
                               <Field
                                 component={"input"}
-                                type="checkbox"
-                                disabled={!editar || nao_pode_editar}
-                                name="nao_possui_email"
-                                checked={nao_possui_email}
+                                type="hidden"
+                                name="value"
                               />
-                              <span
-                                onClick={() =>
-                                  editar &&
-                                  !nao_pode_editar &&
-                                  this.onNaoPossuiEmailChecked()
-                                }
-                                className="checkbox-custom"
-                              />{" "}
-                              <span className="pl-3">Não possui e-mail</span>
-                            </label>
-                          </div>
+                              <div className="form-check">
+                                <label
+                                  htmlFor="nao_possui_email"
+                                  className="checkbox-label"
+                                >
+                                  <Field
+                                    component={"input"}
+                                    type="checkbox"
+                                    disabled={!editar || nao_pode_editar}
+                                    name="nao_possui_email"
+                                    checked={nao_possui_email}
+                                  />
+                                  <span
+                                    onClick={() =>
+                                      editar &&
+                                      !nao_pode_editar &&
+                                      this.onNaoPossuiEmailChecked()
+                                    }
+                                    className="checkbox-custom"
+                                  />{" "}
+                                  <span className="pl-3">
+                                    Não possui e-mail
+                                  </span>
+                                </label>
+                              </div>
+                            </Fragment>
+                          )}
                         </div>
                         <div className="col-6">
                           <Field
