@@ -171,6 +171,12 @@ export class FormularioAluno extends Component {
           responsavel.cd_cpf_responsavel.toString().trim()
         );
       }
+      if (responsavel.nome_responsavel_eol) {
+        this.props.change(
+          "responsavel.nome_responsavel_eol",
+          responsavel.nome_responsavel_eol.toString().trim()
+        );
+      }
       if (responsavel.data_nascimento) {
         this.props.change(
           "responsavel.data_nascimento",
@@ -283,6 +289,12 @@ export class FormularioAluno extends Component {
                   </div>
                   <div className={`${!editar ? "set-opacity" : undefined}`}>
                     <FormSection name="responsavel">
+                      <Field
+                        component={InputText}
+                        label="Nome completo do responsável no EOL"
+                        name="nome_responsavel_eol"
+                        disabled
+                      />
                       <Field
                         component={InputText}
                         label="Nome completo do responsável (sem abreviações)"
