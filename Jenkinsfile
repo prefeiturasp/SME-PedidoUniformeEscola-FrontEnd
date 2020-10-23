@@ -21,14 +21,14 @@ pipeline {
 
        stage('Analise codigo') {
 	       when {
-           branch 'develop'
+           branch 'homolog'
          }
             steps {
                 sh 'sonar-scanner \
                    -Dsonar.projectKey=SME-PedidoUniformeEscola-FrontEnd \
                    -Dsonar.sources=. \
                    -Dsonar.host.url=http://sonar.sme.prefeitura.sp.gov.br \
-                   -Dsonar.login=65c96ab26c042dfec0f81e1bd6b1baaef7f8fc24'
+                   -Dsonar.login=8c0e4819ad6be7ff644d2dd477e8a552d29a1564'
             }
        }
       
@@ -120,7 +120,7 @@ pipeline {
         steps {
           timeout(time: 24, unit: "HOURS") {
           // telegramSend("${JOB_NAME}...O Build ${BUILD_DISPLAY_NAME} - Requer uma aprovação para deploy !!!\n Consulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)\n")
-            input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'ebufaino, marcos_nastri, calvin_rossinhole, ollyver_ottoboni, kelwy_oliveira'
+            input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'ebufaino, calvin_rossinhole, ollyver_ottoboni, kelwy_oliveira'
           }
          sh 'echo Deploying ambiente homologacao'
                 
@@ -182,7 +182,7 @@ pipeline {
         steps {
           timeout(time: 24, unit: "HOURS") {
           // telegramSend("${JOB_NAME}...O Build ${BUILD_DISPLAY_NAME} - Requer uma aprovação para deploy !!!\n Consulte o log para detalhes -> [Job logs](${env.BUILD_URL}console)\n")
-            input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'ebufaino, marcos_nastri, calvin_rossinhole, ollyver_ottoboni, kelwy_oliveira'
+            input message: 'Deseja realizar o deploy?', ok: 'SIM', submitter: 'ebufaino, calvin_rossinhole, ollyver_ottoboni, kelwy_oliveira'
           } 
           script {
             step([$class: "RundeckNotifier",
