@@ -13,3 +13,22 @@ export const formatarNomesResponsaveis = (responsaveis) => {
   });
   return nomesResponsaveis;
 };
+
+export const STATUS_INCONSISTENCIAS = [
+  {
+    nome: "Selecione",
+    uuid: ""
+  },
+  {
+    nome: "CPF inválido",
+    uuid: "Cadastro com CPF inválido",
+  },
+  {
+    nome: "E-mail inválido",
+    uuid: "Cadastro com e-mail inválido",
+  },
+  {
+    nome: "Múltiplos e-mails",
+    uuid: "Cadastro com mais de um e-mail cadastrado",
+  },
+];

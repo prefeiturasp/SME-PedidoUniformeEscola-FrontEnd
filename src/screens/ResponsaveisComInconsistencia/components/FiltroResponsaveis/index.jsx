@@ -12,9 +12,10 @@ import {
   BUTTON_STYLE,
   BUTTON_TYPE,
 } from "../../../../components/Botao/constants";
-import { formatarNomesResponsaveis, formatarNomesEstudantes } from "./helper";
+import { formatarNomesResponsaveis, formatarNomesEstudantes, STATUS_INCONSISTENCIAS } from "./helper";
 import { toastError } from "../../../../components/Toast/dialogs";
 import { getListaResponsaveis } from "../../../../services/listaResponsaveis";
+import Select from "../../../../components/Select";
 
 export class FiltroResponsaveis extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ export class FiltroResponsaveis extends Component {
       nomesResponsaveis: [],
       nome_estudante: null,
       nome_responsavel: null,
+      status: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -113,6 +115,12 @@ export class FiltroResponsaveis extends Component {
       }
       getParams += `nome_responsavel=${nome_responsavel_valido}`;
     }
+    if (values.status) {
+      if (getParams.length > 1) {
+        getParams += "&";
+      }
+      getParams += `status=${values.status}`;
+    }
     getListaResponsaveis(getParams)
       .then((response) => {
         if (response.status === HTTP_STATUS.OK) {
@@ -136,7 +144,6 @@ export class FiltroResponsaveis extends Component {
       codigo_eol,
       openCollapse,
       alterCollapse,
-      setCodigoEol,
     } = this.props;
     const {
       codigoEol,
@@ -147,6 +154,7 @@ export class FiltroResponsaveis extends Component {
       nome_responsavel,
       nome_responsavel_valido,
       sugestoesNomesResponsaveis,
+      status,
     } = this.state;
     return (
       <div className="list-filter">
@@ -243,6 +251,18 @@ export class FiltroResponsaveis extends Component {
                   />
                 </div>
               </div>
+              <div className="form-group row">
+                <div className="col-4">
+                  <Field
+                    component={Select}
+                    onChange={(e) => this.setState({ status: e.target.value })}
+                    name="status"
+                    label="Status"
+                    options={STATUS_INCONSISTENCIAS}
+                    naoDesabilitarPrimeiraOpcao
+                  />
+                </div>
+              </div>
               <div className="row pb-5">
                 <div className="col-6">
                   <Botao
@@ -260,7 +280,8 @@ export class FiltroResponsaveis extends Component {
                       !codigoEol &&
                       !cpf &&
                       !nome_estudante_valido &&
-                      !nome_responsavel_valido
+                      !nome_responsavel_valido &&
+                      !status
                     }
                     texto="Buscar"
                   />
